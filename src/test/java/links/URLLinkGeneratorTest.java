@@ -14,13 +14,13 @@ public class URLLinkGeneratorTest {
 
     @Test
     public void testGetLinkByEmptyCityName() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?q=",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?q=",
                 URLLinkGenerator.generateURLLinkByCityName(""));
     }
 
     @Test
     public void testGetLinkForTallinn() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?q=Tallinn",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?q=Tallinn",
                 URLLinkGenerator.generateURLLinkByCityName("Tallinn"));
     }
 
@@ -31,13 +31,13 @@ public class URLLinkGeneratorTest {
 
     @Test
     public void testGetLinkByEmptyCityNameAndEmptyCountryCode() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?q=,",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?q=,",
                 URLLinkGenerator.generateURLLinkByCityNameAndCountryCode("", ""));
     }
 
     @Test
     public void testGetLinkByCityAndCountryCode() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?q=tallinn,ee",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?q=tallinn,ee",
                 URLLinkGenerator.generateURLLinkByCityNameAndCountryCode("tallinn", "ee"));
     }
 
@@ -58,55 +58,55 @@ public class URLLinkGeneratorTest {
 
     @Test
     public void testGetLinkByPositiveCityID() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?id=5",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?id=5",
                 URLLinkGenerator.generateURLLinkByCityID(5));
     }
 
     @Test
     public void testGetLinkByNegativeCityID() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?id=-11",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?id=-11",
                 URLLinkGenerator.generateURLLinkByCityID(-11));
     }
 
     @Test
     public void testGetLinkByZeroCityID() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?id=0",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?id=0",
                 URLLinkGenerator.generateURLLinkByCityID(0));
     }
 
     @Test
     public void testGetLinkByPositiveLongitudeAndPositiveLatitude() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=987&lon=1",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=987&lon=1",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(987, 1));
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=1&lon=13641",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=1&lon=13641",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(1, 13641));
     }
 
     @Test
     public void testGetLinkByPositiveLongitudeAndNegativeLatitude() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=741&lon=-3",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=741&lon=-3",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(741, -3));
     }
 
     @Test
     public void testGetLinkByNegativeLongitudeAndPositiveLatitude() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=-9999&lon=22222",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=-9999&lon=22222",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(-9999, 22222));
     }
 
     @Test
     public void testGetLinkByZeroLongitudeAndLatitude() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=0&lon=0",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=0&lon=0",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(0, 0));
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=-1&lon=0",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=-1&lon=0",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(-1, 0));
-        assertEquals("api.openweathermap.org/data/2.5/weather?lat=0&lon=1",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?lat=0&lon=1",
                 URLLinkGenerator.generateURLLinkByLatitudeAndLongtitude(0, 1));
     }
 
     @Test
     public void testGetLinkByZipCodeAndCountryCode() {
-        assertEquals("api.openweathermap.org/data/2.5/weather?zip=94040,us",
+        assertEquals("api.openweathermap.org/forecast/2.5/forecast?zip=94040,us",
                 URLLinkGenerator.generateURLLinkByZipCodeAndCountryCode(94040, "US"));
     }
 

@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class URLLinkGenerator {
+    public static final String API_URL = "api.openweathermap.org/forecast/2.5/forecast?";
+    public static final String API_KEY = "";
+
     public static boolean isCountryCodeValid(String countryCode) {
         return Arrays.asList(Locale.getISOCountries()).contains(countryCode.toUpperCase());
     }
@@ -13,8 +16,6 @@ public class URLLinkGenerator {
     }
 
     public static String generateURLLinkByCityNameAndCountryCode(String cityName, String countryCode) {
-        // this doesn't work properly in api.
-
         return null;
     }
 

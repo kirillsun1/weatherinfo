@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class HTTPConnectionTest {
     @Test
     public void testConnectionToAPI() {
-        HttpURLConnection con = HTTPConnection.createConnection("http://api.openweathermap.org/data/2.5");
+        HttpURLConnection con = HTTPConnection.createConnection("http://api.openweathermap.org/forecast/2.5");
         try {
             int responseCode = con.getResponseCode();
 
@@ -33,7 +33,7 @@ public class HTTPConnectionTest {
 
     @Test
     public void testConnectionToNullLink() {
-        HttpURLConnection con = HTTPConnection.createConnection("nolink.es");
+        HttpURLConnection con = HTTPConnection.createConnection(null);
         assertNull(con);
     }
 }
