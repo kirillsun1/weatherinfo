@@ -8,5 +8,6 @@ import weatherdata.WeatherRequest;
 public interface WeatherRepository {
     WeatherForecast getWeatherForecast(WeatherRequest request) throws APIDataNotFoundException;
 
+    
     CurrentWeatherData getCurrentWeather(WeatherRequest request) throws APIDataNotFoundException;
 }
