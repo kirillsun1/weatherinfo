@@ -13,7 +13,7 @@ public class City {
      * @param latitude    City coordinate.
      * @param countryCode Code of the country where the city is in.
      */
-    public City(int id, String name, int longitude, int latitude, String countryCode) {
+    public City(int id, String name, double longitude, double latitude, String countryCode) {
 
     }
 
@@ -40,7 +40,7 @@ public class City {
      *
      * @return Rounded up number.
      */
-    public int getLongitude() {
+    public double getLongitude() {
         return Integer.MIN_VALUE;
     }
 
@@ -49,7 +49,7 @@ public class City {
      *
      * @return Rounded up number.
      */
-    public int getLatitude() {
+    public double getLatitude() {
         return Integer.MIN_VALUE;
     }
 

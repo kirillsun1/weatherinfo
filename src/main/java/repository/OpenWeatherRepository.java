@@ -1,8 +1,8 @@
 package repository;
 
 import exceptions.APIDataNotFoundException;
-import weatherdata.CurrentWeatherData;
-import weatherdata.WeatherForecast;
+import weatherdata.CurrentWeatherReport;
+import weatherdata.WeatherForecastReport;
 import weatherdata.WeatherRequest;
 
 public class OpenWeatherRepository implements WeatherRepository {
@@ -14,12 +14,12 @@ public class OpenWeatherRepository implements WeatherRepository {
     }
 
     @Override
-    public WeatherForecast getWeatherForecast(WeatherRequest request) throws APIDataNotFoundException {
+    public WeatherForecastReport getWeatherForecastReport(WeatherRequest request) throws APIDataNotFoundException {
         return null;
     }
 
     @Override
-    public CurrentWeatherData getCurrentWeather(WeatherRequest request) throws APIDataNotFoundException {
+    public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException {
         return null;
     }
 }
