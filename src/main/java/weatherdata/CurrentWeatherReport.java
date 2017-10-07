@@ -18,7 +18,7 @@ public class CurrentWeatherReport {
         return -1;
     }
 
-    public static CurrentWeatherReport getFromJSON(String jsonfileparser) {
+    public static CurrentWeatherReport getFromJSON(String jsonFile) {
         return null;
     }
 }

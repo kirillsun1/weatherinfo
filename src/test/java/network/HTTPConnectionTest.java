@@ -12,8 +12,9 @@ public class HTTPConnectionTest {
     @Test
     public void testConnectionToAPISample() {
         try {
-            HttpURLConnection con = HTTPConnection.createConnection(
+            HTTPConnection con = HTTPConnection.createConnection(
                     "http://samples.openweathermap.org/data/2.5/forecast?id=524901&appid=b1b15e88fa797225412429c1c50c122a15");
+            con.open();
             int responseCode = con.getResponseCode();
 
             assertEquals(HttpURLConnection.HTTP_OK, responseCode);
@@ -24,7 +25,8 @@ public class HTTPConnectionTest {
 
     @Test(expected = UnknownHostException.class)
     public void testConnectionToNotExistingLink() throws IOException {
-        HttpURLConnection con = HTTPConnection.createConnection("http://nolink.es");
+        HTTPConnection con = HTTPConnection.createConnection("http://nolink.es");
+        con.open();
         con.getResponseCode();
     }
 }
