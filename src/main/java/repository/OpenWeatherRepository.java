@@ -1,12 +1,14 @@
 package repository;
 
 import exceptions.APIDataNotFoundException;
+import exceptions.IncorrectAPIOutputException;
 import network.HTTPConnection;
 import weatherdata.CurrentWeatherReport;
 import weatherdata.WeatherForecastReport;
 import weatherdata.WeatherRequest;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 public class OpenWeatherRepository implements WeatherRepository {
     private static final String WEATHER_API_LINK = "https://api.openweathermap.org/data/2.5/weather?";
@@ -45,7 +47,8 @@ public class OpenWeatherRepository implements WeatherRepository {
     }
 
     @Override
-    public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException {
+    public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException,
+            IncorrectAPIOutputException, IOException {
         String connectionLink = makeCurrentWeatherRequestLinkFromWeatherRequest(request);
         HTTPConnection connection;
         try {
@@ -53,6 +56,10 @@ public class OpenWeatherRepository implements WeatherRepository {
             connection.open();
         } catch (IOException e) {
             throw new APIDataNotFoundException("Connection is not established!");
+        }
+
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+            throw new APIDataNotFoundException("Invalid data!");
         }
 
         String jsonFile;

@@ -21,8 +21,8 @@ public class HTTPConnection {
     }
 
     public String downloadFile() throws IOException {
-        if (!isOpened || connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new IllegalStateException("Connection is not opened!");
+        if (!isOpened) {
+            throw new IllegalStateException("Connection is not opened! " + url.toString());
         }
 
         StringBuilder builder = new StringBuilder();

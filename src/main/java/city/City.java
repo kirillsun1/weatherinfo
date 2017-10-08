@@ -4,6 +4,12 @@ package city;
  * City data.
  */
 public class City {
+    private final int cityID;
+    private final String cityName;
+    private final double longitude;
+    private final double latitude;
+    private final String countryCode;
+
     /**
      * Constructor.
      *
@@ -14,7 +20,11 @@ public class City {
      * @param countryCode Code of the country where the city is in.
      */
     public City(int id, String name, double longitude, double latitude, String countryCode) {
-
+        this.cityID = id;
+        this.cityName = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.countryCode = countryCode;
     }
 
     /**
@@ -23,7 +33,7 @@ public class City {
      * @return city id as integer.
      */
     public int getCityID() {
-        return Integer.MIN_VALUE;
+        return cityID;
     }
 
     /**
@@ -32,7 +42,7 @@ public class City {
      * @return name of the city.
      */
     public String getCityName() {
-        return null;
+        return cityName;
     }
 
     /**
@@ -41,7 +51,7 @@ public class City {
      * @return Rounded up number.
      */
     public double getLongitude() {
-        return Integer.MIN_VALUE;
+        return longitude;
     }
 
     /**
@@ -50,7 +60,7 @@ public class City {
      * @return Rounded up number.
      */
     public double getLatitude() {
-        return Integer.MIN_VALUE;
+        return latitude;
     }
 
     /**
@@ -60,6 +70,6 @@ public class City {
      * @return Code.
      */
     public String getCountryCode() {
-        return null;
+        return countryCode;
     }
 }
