@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.IncorrectAPIOutputException;
 import utility.Constants;
+import utility.Utils;
 
 public class CurrentWeatherReport {
     private City city;
@@ -48,14 +49,35 @@ public class CurrentWeatherReport {
         final CurrentWeatherDataStructure weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherDataStructure.class);
         CurrentWeatherReport report = new CurrentWeatherReport();
 
-        String cityName = weatherFromAPI.getCityName();
-        double longtitude = weatherFromAPI.getCoordinates().get("lon");
-        double latitude = weatherFromAPI.getCoordinates().get("lat");
-        String countryCode = (String) weatherFromAPI.getSys().get("country");
+        // TODO: Ask if okay. I think it is not!
+
+        String cityName, countryCode;
+        double longtitude, latitude;
+
+        cityName = weatherFromAPI.getCityName();
+        if (cityName == null) {
+            throw new IncorrectAPIOutputException("Incorrect city!");
+        }
+
+        try {
+            longtitude = weatherFromAPI.getCoordinates().get("lon");
+            latitude = weatherFromAPI.getCoordinates().get("lat");
+        } catch (NullPointerException ex) {
+            throw new IncorrectAPIOutputException("Incorrect coordinated!");
+        }
+
+        countryCode = (String) weatherFromAPI.getSys().get("country");
+        if (countryCode == null || !Utils.isCountryCodeCorrect(countryCode)) {
+            throw new IncorrectAPIOutputException("Incorrect country code!");
+        }
 
         report.city = new City(cityName, Coordinates.of(longtitude, latitude), countryCode);
 
-        report.currentTemperature = Float.parseFloat(weatherFromAPI.getMain().get("temp").toString());
+        try {
+            report.currentTemperature = Float.parseFloat(weatherFromAPI.getMain().get("temp").toString());
+        } catch (NullPointerException ex) {
+            throw new IncorrectAPIOutputException("Incorrect temperature!");
+        }
         return report;
     }
 }
