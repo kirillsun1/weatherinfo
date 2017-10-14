@@ -1,13 +1,17 @@
 package weatherdata;
 
+import OpenWeatherStructures.CurrentWeatherDataStructure;
 import city.City;
+import city.Coordinates;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exceptions.IncorrectAPIOutputException;
-import org.json.*;
-import utility.Utils;
+import utility.Constants;
 
 public class CurrentWeatherReport {
     private City city;
     private double currentTemperature;
+    private Constants.TemperatureUnits temperatureUnit;
 
     private CurrentWeatherReport() {
 
@@ -21,47 +25,37 @@ public class CurrentWeatherReport {
         return city.getCountryCode();
     }
 
-    public String getGEOCoordinates() {
-        return String.format("%03d:%03d", Math.round(city.getLongitude()), Math.round(city.getLatitude()));
-    }
-
     public double getCurrentTemperature() {
         return currentTemperature;
+    }
+
+    public Coordinates getCoordinates() {
+        return city.getCoordinates();
+    }
+
+    public Constants.TemperatureUnits getTemperatureUnit() {
+        return temperatureUnit;
     }
 
     @Override
     public String toString() {
         return String.format("City: %s [%s]\nCoords: %s\nTemp: %.2f", getCityName(), getCountryCode(),
-                getGEOCoordinates(), getCurrentTemperature());
+                city.getCoordinates(), getCurrentTemperature());
     }
 
     public static CurrentWeatherReport getFromJSON(String jsonFile) throws IncorrectAPIOutputException {
-        JSONObject parsedJson = new JSONObject(jsonFile);
-
-        int cityID;
-        String cityName, countryCode;
-        double longitude, latitude;
-        try {
-            cityID = parsedJson.getInt("id");
-            cityName = parsedJson.getString("name");
-            countryCode = parsedJson.getJSONObject("sys").getString("country");
-            JSONObject coordObj = parsedJson.getJSONObject("coord");
-            longitude = coordObj.getDouble("lon");
-            latitude = coordObj.getDouble("lat");
-
-        } catch (JSONException ex) {
-            throw new IncorrectAPIOutputException("Error while parsing output: " + ex.getMessage());
-        }
-
-        if (!Utils.isCountryCodeCorrect(countryCode)) {
-            throw new IncorrectAPIOutputException("Incorrect country code!");
-        }
-
-        City city = new City(cityID, cityName, longitude, latitude, countryCode);
+        Gson gson = new GsonBuilder().create();
+        final CurrentWeatherDataStructure weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherDataStructure.class);
         CurrentWeatherReport report = new CurrentWeatherReport();
-        report.city = city;
-        // TODO: Consider tempunits!
-        report.currentTemperature = parsedJson.getJSONObject("main").getDouble("temp");
+
+        String cityName = weatherFromAPI.getCityName();
+        double longtitude = weatherFromAPI.getCoordinates().get("lon");
+        double latitude = weatherFromAPI.getCoordinates().get("lat");
+        String countryCode = (String) weatherFromAPI.getSys().get("country");
+
+        report.city = new City(cityName, Coordinates.of(longtitude, latitude), countryCode);
+
+        report.currentTemperature = Float.parseFloat(weatherFromAPI.getMain().get("temp").toString());
         return report;
     }
 }

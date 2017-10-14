@@ -3,6 +3,7 @@ package repository;
 import exceptions.APIDataNotFoundException;
 import exceptions.IncorrectAPIOutputException;
 import network.HTTPConnection;
+import utility.Constants;
 import weatherdata.CurrentWeatherReport;
 import weatherdata.WeatherForecastReport;
 import weatherdata.WeatherRequest;
@@ -16,13 +17,19 @@ public class OpenWeatherRepository implements WeatherRepository {
     private static final String API_KEY = "846ff6c4ed10c7be2825f677097f8376";
 
     private static String makeCurrentWeatherRequestLinkFromWeatherRequest(WeatherRequest request) {
-        return WEATHER_API_LINK + String.format("q=%s,%s&APPID=%s", request.getCityName(),
-                request.getCityCode(), API_KEY);
+        String tempUnitString = request.getTemperatureUnit() == Constants.TemperatureUnits.getUnitByDefault() ?
+                "" : String.format("&units=%s", request.getTemperatureUnit().toString().toLowerCase());
+
+        return WEATHER_API_LINK + String.format("q=%s,%s%s&APPID=%s", request.getCityName(), request.getCountryCode(),
+                tempUnitString, API_KEY);
     }
 
     private static String makeWeatherForecastRequestLinkFromWeatherRequest(WeatherRequest request) {
-        return FORECAST_API_LINK + String.format("q=%s,%s&APPID=%s", request.getCityName(),
-                request.getCityCode(), API_KEY);
+        String tempUnitString = request.getTemperatureUnit() == Constants.TemperatureUnits.getUnitByDefault() ?
+                "" : String.format("&units=%s", request.getTemperatureUnit().toString().toLowerCase());
+
+        return FORECAST_API_LINK + String.format("q=%s,%s&APPID=%s", request.getCityName(), request.getCountryCode(),
+                tempUnitString, API_KEY);
     }
 
     @Override
@@ -30,36 +37,49 @@ public class OpenWeatherRepository implements WeatherRepository {
         String connectionLink = makeWeatherForecastRequestLinkFromWeatherRequest(request);
         HTTPConnection connection;
         try {
-            connection = HTTPConnection.createConnection(connectionLink);
-            connection.open();
+            connection = HTTPConnection.createConnectionFromURL(connectionLink);
         } catch (IOException e) {
-            throw new APIDataNotFoundException("Connection is not established!");
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
+        }
+
+        try {
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                throw new APIDataNotFoundException("Invalid data!");
+            }
+        } catch (IOException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }
 
         String jsonFile;
         try {
             jsonFile = connection.downloadFile();
         } catch (IOException e) {
-            throw new APIDataNotFoundException("Cannot load API data!");
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }
 
-        return WeatherForecastReport.getFromJSON(jsonFile);
+        try {
+            return WeatherForecastReport.getFromJSON(jsonFile);
+        } catch (IncorrectAPIOutputException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
+        }
     }
 
     @Override
-    public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException,
-            IncorrectAPIOutputException, IOException {
+    public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException {
         String connectionLink = makeCurrentWeatherRequestLinkFromWeatherRequest(request);
         HTTPConnection connection;
         try {
-            connection = HTTPConnection.createConnection(connectionLink);
-            connection.open();
+            connection = HTTPConnection.createConnectionFromURL(connectionLink);
         } catch (IOException e) {
             throw new APIDataNotFoundException("Connection is not established!");
         }
 
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-            throw new APIDataNotFoundException("Invalid data!");
+        try {
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                throw new APIDataNotFoundException("Invalid data!");
+            }
+        } catch (IOException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }
 
         String jsonFile;
@@ -69,6 +89,10 @@ public class OpenWeatherRepository implements WeatherRepository {
             throw new APIDataNotFoundException("Cannot load API data!");
         }
 
-        return CurrentWeatherReport.getFromJSON(jsonFile);
+        try {
+            return CurrentWeatherReport.getFromJSON(jsonFile);
+        } catch (IncorrectAPIOutputException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
+        }
     }
 }
