@@ -10,12 +10,14 @@ import utility.Constants;
 import utility.Utils;
 
 public class CurrentWeatherReport {
-    private City city;
-    private double currentTemperature;
-    private Constants.TemperatureUnits temperatureUnit;
+    private final City city;
+    private final double currentTemperature;
+    private final Constants.TemperatureUnits temperatureUnit;
 
-    private CurrentWeatherReport() {
-
+    CurrentWeatherReport(City city, double currentTemperature, Constants.TemperatureUnits tempUnit) {
+        this.city = city;
+        this.currentTemperature = currentTemperature;
+        this.temperatureUnit = tempUnit;
     }
 
     public String getCityName() {
@@ -42,42 +44,5 @@ public class CurrentWeatherReport {
     public String toString() {
         return String.format("City: %s [%s]\nCoords: %s\nTemp: %.2f", getCityName(), getCountryCode(),
                 city.getCoordinates(), getCurrentTemperature());
-    }
-
-    public static CurrentWeatherReport getFromJSON(String jsonFile) throws IncorrectAPIOutputException {
-        Gson gson = new GsonBuilder().create();
-        final CurrentWeatherDataStructure weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherDataStructure.class);
-        CurrentWeatherReport report = new CurrentWeatherReport();
-
-        // TODO: Ask if okay. I think it is not!
-
-        String cityName, countryCode;
-        double longtitude, latitude;
-
-        cityName = weatherFromAPI.getCityName();
-        if (cityName == null) {
-            throw new IncorrectAPIOutputException("Incorrect city!");
-        }
-
-        try {
-            longtitude = weatherFromAPI.getCoordinates().get("lon");
-            latitude = weatherFromAPI.getCoordinates().get("lat");
-        } catch (NullPointerException ex) {
-            throw new IncorrectAPIOutputException("Incorrect coordinated!");
-        }
-
-        countryCode = (String) weatherFromAPI.getSys().get("country");
-        if (countryCode == null || !Utils.isCountryCodeCorrect(countryCode)) {
-            throw new IncorrectAPIOutputException("Incorrect country code!");
-        }
-
-        report.city = new City(cityName, Coordinates.of(longtitude, latitude), countryCode);
-
-        try {
-            report.currentTemperature = Float.parseFloat(weatherFromAPI.getMain().get("temp").toString());
-        } catch (NullPointerException ex) {
-            throw new IncorrectAPIOutputException("Incorrect temperature!");
-        }
-        return report;
     }
 }

@@ -4,9 +4,7 @@ import exceptions.APIDataNotFoundException;
 import exceptions.IncorrectAPIOutputException;
 import network.HTTPConnection;
 import utility.Constants;
-import weatherdata.CurrentWeatherReport;
-import weatherdata.WeatherForecastReport;
-import weatherdata.WeatherRequest;
+import weatherdata.*;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -28,37 +26,38 @@ public class OpenWeatherRepository implements WeatherRepository {
         String tempUnitString = request.getTemperatureUnit() == Constants.TemperatureUnits.getUnitByDefault() ?
                 "" : String.format("&units=%s", request.getTemperatureUnit().toString().toLowerCase());
 
-        return FORECAST_API_LINK + String.format("q=%s,%s&APPID=%s", request.getCityName(), request.getCountryCode(),
+        return FORECAST_API_LINK + String.format("q=%s,%s%s&APPID=%s", request.getCityName(), request.getCountryCode(),
                 tempUnitString, API_KEY);
+    }
+
+    private static HTTPConnection getHTTPConnectionByLink(String connectionLink) throws APIDataNotFoundException {
+        try {
+            HTTPConnection connection = HTTPConnection.createConnectionFromURL(connectionLink);
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                throw new APIDataNotFoundException("Invalid data!");
+            }
+            return connection;
+        } catch (IOException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
+        }
+    }
+
+    private static String getJSONFileFromConnection(HTTPConnection connection) throws APIDataNotFoundException {
+        try {
+            return connection.downloadFile();
+        } catch (IOException e) {
+            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
+        }
     }
 
     @Override
     public WeatherForecastReport getWeatherForecastReport(WeatherRequest request) throws APIDataNotFoundException {
         String connectionLink = makeWeatherForecastRequestLinkFromWeatherRequest(request);
-        HTTPConnection connection;
-        try {
-            connection = HTTPConnection.createConnectionFromURL(connectionLink);
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
-        }
+        HTTPConnection connection = getHTTPConnectionByLink(connectionLink);
+        String jsonFile = getJSONFileFromConnection(connection);
 
         try {
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                throw new APIDataNotFoundException("Invalid data!");
-            }
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
-        }
-
-        String jsonFile;
-        try {
-            jsonFile = connection.downloadFile();
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
-        }
-
-        try {
-            return WeatherForecastReport.getFromJSON(jsonFile);
+            return WeatherForecastReportFabric.createReportFromJSONAndRequest(jsonFile, request);
         } catch (IncorrectAPIOutputException e) {
             throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }
@@ -67,30 +66,11 @@ public class OpenWeatherRepository implements WeatherRepository {
     @Override
     public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException {
         String connectionLink = makeCurrentWeatherRequestLinkFromWeatherRequest(request);
-        HTTPConnection connection;
-        try {
-            connection = HTTPConnection.createConnectionFromURL(connectionLink);
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Connection is not established!");
-        }
+        HTTPConnection connection = getHTTPConnectionByLink(connectionLink);
+        String jsonFile = getJSONFileFromConnection(connection);
 
         try {
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                throw new APIDataNotFoundException("Invalid data!");
-            }
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
-        }
-
-        String jsonFile;
-        try {
-            jsonFile = connection.downloadFile();
-        } catch (IOException e) {
-            throw new APIDataNotFoundException("Cannot load API data!");
-        }
-
-        try {
-            return CurrentWeatherReport.getFromJSON(jsonFile);
+            return CurrentWeatherReportFabric.createReportFromJSONAndRequest(jsonFile, request);
         } catch (IncorrectAPIOutputException e) {
             throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }

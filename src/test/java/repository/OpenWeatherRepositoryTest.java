@@ -62,9 +62,9 @@ public class OpenWeatherRepositoryTest {
             fail("Error occured: " + e.getMessage());
         }
 
-        assertEquals(report.getCityName(), "New York");
-        assertEquals(report.getCountryCode(), "US");
-        assertEquals(report.getTemperatureUnit(), Constants.TemperatureUnits.getUnitByDefault());
+        assertEquals("New York", report.getCityName());
+        assertEquals("US", report.getCountryCode());
+        assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
     }
 
     @Test
@@ -78,9 +78,9 @@ public class OpenWeatherRepositoryTest {
             fail("Error occured: " + e.getMessage());
         }
 
-        assertEquals(report.getCityName(), "New York");
-        assertEquals(report.getCountryCode(), "US");
-        assertEquals(report.getTemperatureUnit(), Constants.TemperatureUnits.METRIC);
+        assertEquals("New York", report.getCityName());
+        assertEquals("US", report.getCountryCode());
+        assertEquals(Constants.TemperatureUnits.METRIC, report.getTemperatureUnit());
     }
 
     @Test
@@ -115,9 +115,9 @@ public class OpenWeatherRepositoryTest {
             fail("Error occured: " + e.getMessage());
         }
 
-        assertEquals(report.getCityName(), "New York");
-        assertEquals(report.getCountryCode(), "US");
-        assertEquals(report.getTemperatureUnit(), Constants.TemperatureUnits.getUnitByDefault());
+        assertEquals("New York", report.getCityName());
+        assertEquals("US", report.getCountryCode());
+        assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
     }
 
     @Test
@@ -131,8 +131,8 @@ public class OpenWeatherRepositoryTest {
             fail("Error occured: " + e.getMessage());
         }
 
-        assertEquals(report.getCityName(), "New York");
-        assertEquals(report.getCountryCode(), "US");
-        assertEquals(report.getTemperatureUnit(), Constants.TemperatureUnits.IMPERIAL);
+        assertEquals("New York", report.getCityName());
+        assertEquals("US", report.getCountryCode());
+        assertEquals(Constants.TemperatureUnits.IMPERIAL, report.getTemperatureUnit());
     }
 }

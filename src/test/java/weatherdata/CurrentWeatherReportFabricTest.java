@@ -2,10 +2,14 @@ package weatherdata;
 
 import exceptions.IncorrectAPIOutputException;
 import org.junit.Test;
+import utility.Constants;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class CurrentWeatherReportFromJsonTest {
+public class CurrentWeatherReportFabricTest {
     @Test
     public void testGetReportNormalCase() {
         String json = "\n" +
@@ -23,12 +27,16 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
+        WeatherRequest mockedRequest = mock(WeatherRequest.class);
+        when(mockedRequest.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.getUnitByDefault());
+
         CurrentWeatherReport report = null;
         try {
-            report = CurrentWeatherReport.getFromJSON(json);
+            report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
             fail("Error occured: " + e.getMessage());
         }
+
         assertEquals("Cairns", report.getCityName());
         assertEquals(145.77, report.getCoordinates().getLongitude(), 0.01);
         assertEquals(16.92, report.getCoordinates().getLatitude(), 0.01);
@@ -52,12 +60,16 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
+        WeatherRequest mockedRequest = mock(WeatherRequest.class);
+        when(mockedRequest.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.getUnitByDefault());
+
         CurrentWeatherReport report = null;
         try {
-            report = CurrentWeatherReport.getFromJSON(json);
+            report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
             fail("Error occured: " + e.getMessage());
         }
+
         assertEquals("Cairns", report.getCityName());
         assertEquals(145.77, report.getCoordinates().getLongitude(), 0.01);
         assertEquals(-16.92, report.getCoordinates().getLatitude(), 0.01);
@@ -81,9 +93,12 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
+        WeatherRequest mockedRequest = mock(WeatherRequest.class);
+        when(mockedRequest.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.getUnitByDefault());
+
         CurrentWeatherReport report = null;
         try {
-            report = CurrentWeatherReport.getFromJSON(json);
+            report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
             fail("Error occured: " + e.getMessage());
         }
@@ -110,9 +125,12 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
+        WeatherRequest mockedRequest = mock(WeatherRequest.class);
+        when(mockedRequest.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.getUnitByDefault());
+
         CurrentWeatherReport report = null;
         try {
-            report = CurrentWeatherReport.getFromJSON(json);
+            report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
             fail("Error occured: " + e.getMessage());
         }
@@ -139,7 +157,7 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"id\":2172797,\n" +
                 "\"cod\":200}";
 
-        System.out.println(CurrentWeatherReport.getFromJSON(json));
+        System.out.println(CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class)));
     }
 
     @Test(expected = IncorrectAPIOutputException.class)
@@ -157,7 +175,7 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
-        CurrentWeatherReport.getFromJSON(json);
+        CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class));
     }
 
     @Test(expected = IncorrectAPIOutputException.class)
@@ -177,7 +195,7 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
-        CurrentWeatherReport.getFromJSON(json);
+        CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class));
     }
 
     @Test(expected = IncorrectAPIOutputException.class)
@@ -196,7 +214,7 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"id\":2172797,\n" +
                 "\"cod\":200}";
 
-        CurrentWeatherReport.getFromJSON(json);
+        CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class));
     }
 
     @Test(expected = IncorrectAPIOutputException.class)
@@ -216,7 +234,7 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
-        CurrentWeatherReport.getFromJSON(json);
+        CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class));
     }
 
     @Test(expected = IncorrectAPIOutputException.class)
@@ -236,6 +254,6 @@ public class CurrentWeatherReportFromJsonTest {
                 "\"name\":\"Cairns\",\n" +
                 "\"cod\":200}";
 
-        CurrentWeatherReport.getFromJSON(json);
+        CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mock(WeatherRequest.class));
     }
 }

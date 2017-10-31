@@ -31,19 +31,4 @@ public class HTTPConnectionTest {
         HTTPConnection con = HTTPConnection.createConnectionFromURL("http://nolink.es");
         con.getResponseCode();
     }
-
-    @Test
-    public void testDownloadFileFromMockedConnection() {
-        HTTPConnection mockedConnection = mock(HTTPConnection.class);
-        try {
-            when(mockedConnection.downloadFile()).thenReturn("mocked well??");
-        } catch (IOException e) {
-            fail("Error occured: " + e.getMessage());
-        }
-        try {
-            assertEquals("mocked well??", mockedConnection.downloadFile());
-        } catch (IOException e) {
-            fail("Error occured: " + e.getMessage());
-        }
-    }
 }

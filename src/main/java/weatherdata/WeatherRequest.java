@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeatherRequest {
-    private static Map<String, WeatherRequest> existingRequests = new HashMap<>();
-
     private String cityName;
     private String cityCode;
     private Constants.TemperatureUnits tempUnit = Constants.TemperatureUnits.getUnitByDefault();
@@ -29,16 +27,10 @@ public class WeatherRequest {
     }
 
     public static WeatherRequest of(String cityName, String countryCode) {
-        String key = cityName + countryCode;
-        if (existingRequests.containsKey(key)) {
-            return existingRequests.get(key);
-        }
-
         WeatherRequest request = new WeatherRequest();
         request.cityName = cityName;
         request.cityCode = countryCode;
 
-        existingRequests.put(key, request);
         return request;
     }
 
