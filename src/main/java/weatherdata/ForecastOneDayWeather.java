@@ -2,7 +2,7 @@ package weatherdata;
 
 import java.time.LocalDate;
 
-public class ForecastOneDayWeather {
+class ForecastOneDayWeather {
     double minimumTemperature = Integer.MAX_VALUE;
     double maximumTemperature = Integer.MIN_VALUE;
     // double currentTemperature = Integer.MIN_VALUE;

@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class OpenWeatherRepositoryTest {
-    WeatherRepository repository;
+    private WeatherRepository repository;
 
     @Before
     public void openRepositoryForTest() {
@@ -28,7 +28,7 @@ public class OpenWeatherRepositoryTest {
         try {
             currentWeatherReport = repository.getCurrentWeatherReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals(request.getCityName(), currentWeatherReport.getCityName());
@@ -59,7 +59,7 @@ public class OpenWeatherRepositoryTest {
         try {
             report = repository.getCurrentWeatherReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("New York", report.getCityName());
@@ -75,7 +75,7 @@ public class OpenWeatherRepositoryTest {
         try {
             report = repository.getCurrentWeatherReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("New York", report.getCityName());
@@ -112,7 +112,7 @@ public class OpenWeatherRepositoryTest {
         try {
             report = repository.getWeatherForecastReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("New York", report.getCityName());
@@ -128,7 +128,7 @@ public class OpenWeatherRepositoryTest {
         try {
             report = repository.getWeatherForecastReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("New York", report.getCityName());

@@ -1,13 +1,8 @@
 package weatherdata;
 
-import OpenWeatherStructures.CurrentWeatherDataStructure;
 import city.City;
 import city.Coordinates;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import exceptions.IncorrectAPIOutputException;
 import utility.Constants;
-import utility.Utils;
 
 public class CurrentWeatherReport {
     private final City city;

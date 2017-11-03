@@ -11,7 +11,7 @@ import utility.Utils;
 public class CurrentWeatherReportFabric {
     private static String getCityNameFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
             throws IncorrectAPIOutputException {
-        String cityname = structureObject.name;
+        String cityname = structureObject.cityName;
         if (cityname == null) {
             throw new IncorrectAPIOutputException("Incorrect city name!");
         }
@@ -20,7 +20,7 @@ public class CurrentWeatherReportFabric {
 
     private static String getCountryCodeFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
             throws IncorrectAPIOutputException {
-        String countryCode = (String) structureObject.sys.get("country");
+        String countryCode = (String) structureObject.systemData.get("country");
         if (countryCode == null || !Utils.isCountryCodeCorrect(countryCode)) {
             throw new IncorrectAPIOutputException("Incorrect country code!");
         }
@@ -30,7 +30,7 @@ public class CurrentWeatherReportFabric {
     private static double getCurrentTemperatureFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
             throws IncorrectAPIOutputException {
         try {
-            return Float.parseFloat(structureObject.main.get("temp").toString());
+            return Float.parseFloat(structureObject.mainData.get("temp").toString());
         } catch (NullPointerException ex) {
             throw new IncorrectAPIOutputException("Incorrect temperature!");
         }
@@ -40,12 +40,12 @@ public class CurrentWeatherReportFabric {
             throws IncorrectAPIOutputException {
         try {
             double[] coordinates = new double[2];
-            coordinates[0] = structureObject.coord.get("lon"); // longitude
-            coordinates[1] = structureObject.coord.get("lat"); // latitude
+            coordinates[0] = structureObject.coordinates.get("lon"); // longitude
+            coordinates[1] = structureObject.coordinates.get("lat"); // latitude
 
             return coordinates;
         } catch (NullPointerException ex) {
-            throw new IncorrectAPIOutputException("Incorrect coordinated!");
+            throw new IncorrectAPIOutputException("Incorrect coordinates!");
         }
     }
 

@@ -5,7 +5,6 @@ import org.junit.Test;
 import utility.Constants;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +33,7 @@ public class CurrentWeatherReportFabricTest {
         try {
             report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("Cairns", report.getCityName());
@@ -67,7 +66,7 @@ public class CurrentWeatherReportFabricTest {
         try {
             report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals("Cairns", report.getCityName());
@@ -100,7 +99,7 @@ public class CurrentWeatherReportFabricTest {
         try {
             report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
         assertEquals("Cairns", report.getCityName());
         assertEquals(-145.77, report.getCoordinates().getLongitude(), 0.01);
@@ -132,7 +131,7 @@ public class CurrentWeatherReportFabricTest {
         try {
             report = CurrentWeatherReportFabric.createReportFromJSONAndRequest(json, mockedRequest);
         } catch (IncorrectAPIOutputException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
         assertEquals("Cairns", report.getCityName());
         assertEquals(145.77, report.getCoordinates().getLongitude(), 0.01);

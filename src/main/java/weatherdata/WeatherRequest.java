@@ -2,9 +2,6 @@ package weatherdata;
 
 import utility.Constants;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class WeatherRequest {
     private String cityName;
     private String cityCode;

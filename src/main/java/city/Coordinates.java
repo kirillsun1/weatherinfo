@@ -1,7 +1,7 @@
 package city;
 
 public class Coordinates {
-    private double longitude, latitude;
+    private final double longitude, latitude;
 
     private Coordinates(double newLongitude, double newLatitude) {
         longitude = newLongitude;

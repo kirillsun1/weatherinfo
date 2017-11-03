@@ -4,13 +4,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.UnknownHostException;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class HTTPConnectionTest {
     @Test

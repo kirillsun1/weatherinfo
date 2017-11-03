@@ -9,9 +9,9 @@ import java.util.*;
 public class WeatherForecastReport {
     static final int DAYS_IN_FORECAST = 3;
 
-    private City city;
-    private List<ForecastOneDayWeather> oneDayWeathers;
-    private Constants.TemperatureUnits temperatureUnit;
+    private final City city;
+    private final List<ForecastOneDayWeather> oneDayWeathers;
+    private final Constants.TemperatureUnits temperatureUnit;
 
     WeatherForecastReport(City city, List<ForecastOneDayWeather> oneDayWeathers,
                           Constants.TemperatureUnits temperatureUnit) {

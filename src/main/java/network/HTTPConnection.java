@@ -4,11 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HTTPConnection {
-    HttpURLConnection connection;
+    private HttpURLConnection connection;
 
     public String downloadFile() throws IOException {
         StringBuilder builder = new StringBuilder();
@@ -16,7 +15,7 @@ public class HTTPConnection {
         String nextline;
 
         while ((nextline = reader.readLine()) != null) {
-            builder.append(nextline + "\n");
+            builder.append(nextline).append("\n");
         }
 
         reader.close();

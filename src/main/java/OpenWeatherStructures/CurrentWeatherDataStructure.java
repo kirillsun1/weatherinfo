@@ -5,8 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 
 public final class CurrentWeatherDataStructure {
-    public HashMap<String, Float> coord;
-    public HashMap<String, Object> sys;
-    public HashMap<String, Object> main;
-    public String name;
+    @SerializedName("coord")
+    public HashMap<String, Float> coordinates;
+    @SerializedName("sys")
+    public HashMap<String, Object> systemData;
+    @SerializedName("main")
+    public HashMap<String, Object> mainData;
+    @SerializedName("name")
+    public String cityName;
 }

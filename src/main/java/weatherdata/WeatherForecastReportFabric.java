@@ -6,10 +6,8 @@ import city.Coordinates;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
-import exceptions.APIDataNotFoundException;
 import exceptions.IncorrectAPIOutputException;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -56,31 +54,29 @@ public class WeatherForecastReportFabric {
     }
 
     private static String getCityNameFromAPIStructureObject(Forecast5Days3HoursStructure structureObject)
-            throws APIDataNotFoundException {
+            throws IncorrectAPIOutputException {
         String cityName = structureObject.city.name;
 
         if (cityName == null) {
-            throw new APIDataNotFoundException("Incorrect city name!");
+            throw new IncorrectAPIOutputException("Incorrect city name!");
         }
 
         return cityName;
     }
 
     private static double[] getCoordinatesFromAPIStructureObject(Forecast5Days3HoursStructure structureObject) {
-        double[] coordinates = {
+        return new double[]{
                 structureObject.city.coord.get("lon"),
                 structureObject.city.coord.get("lat")
         };
-
-        return coordinates;
     }
 
     private static String getCountryCodeFromAPIStructureObject(Forecast5Days3HoursStructure structureObject)
-            throws APIDataNotFoundException {
+            throws IncorrectAPIOutputException {
         String countryCode = structureObject.city.country;
 
         if (countryCode == null) {
-            throw new APIDataNotFoundException("Incorrect country code!");
+            throw new IncorrectAPIOutputException("Incorrect country code!");
         }
 
         return countryCode;
@@ -91,9 +87,9 @@ public class WeatherForecastReportFabric {
         Gson gson = new GsonBuilder().create();
         Forecast5Days3HoursStructure apiForecast = gson.fromJson(jsonFile, Forecast5Days3HoursStructure.class);
 
-        String cityName = apiForecast.city.name;
+        String cityName = getCityNameFromAPIStructureObject(apiForecast);
         double[] coordinates = getCoordinatesFromAPIStructureObject(apiForecast);
-        String countryCode = apiForecast.city.country;
+        String countryCode = getCountryCodeFromAPIStructureObject(apiForecast);
 
         List<ForecastOneDayWeather> oneDayWeatherList = getOneDayWeathersList(apiForecast);
 
