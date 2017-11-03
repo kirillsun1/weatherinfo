@@ -1,6 +1,6 @@
 package weatherdata;
 
-import OpenWeatherStructures.CurrentWeatherDataStructure;
+import openweatherobjects.CurrentWeatherData;
 import city.City;
 import city.Coordinates;
 import com.google.gson.Gson;
@@ -9,7 +9,7 @@ import exceptions.IncorrectAPIOutputException;
 import utility.Utils;
 
 public class CurrentWeatherReportFabric {
-    private static String getCityNameFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
+    private static String getCityNameFromAPIStructureObject(CurrentWeatherData structureObject)
             throws IncorrectAPIOutputException {
         String cityname = structureObject.cityName;
         if (cityname == null) {
@@ -18,7 +18,7 @@ public class CurrentWeatherReportFabric {
         return cityname;
     }
 
-    private static String getCountryCodeFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
+    private static String getCountryCodeFromAPIStructureObject(CurrentWeatherData structureObject)
             throws IncorrectAPIOutputException {
         String countryCode = (String) structureObject.systemData.get("country");
         if (countryCode == null || !Utils.isCountryCodeCorrect(countryCode)) {
@@ -27,7 +27,7 @@ public class CurrentWeatherReportFabric {
         return countryCode;
     }
 
-    private static double getCurrentTemperatureFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
+    private static double getCurrentTemperatureFromAPIStructureObject(CurrentWeatherData structureObject)
             throws IncorrectAPIOutputException {
         try {
             return Float.parseFloat(structureObject.mainData.get("temp").toString());
@@ -36,7 +36,7 @@ public class CurrentWeatherReportFabric {
         }
     }
 
-    private static double[] getCoordinatesFromAPIStructureObject(CurrentWeatherDataStructure structureObject)
+    private static double[] getCoordinatesFromAPIStructureObject(CurrentWeatherData structureObject)
             throws IncorrectAPIOutputException {
         try {
             double[] coordinates = new double[2];
@@ -52,7 +52,7 @@ public class CurrentWeatherReportFabric {
     public static CurrentWeatherReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
             throws IncorrectAPIOutputException {
         Gson gson = new GsonBuilder().create();
-        final CurrentWeatherDataStructure weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherDataStructure.class);
+        final CurrentWeatherData weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherData.class);
 
         String cityName = getCityNameFromAPIStructureObject(weatherFromAPI);
         String countryCode = getCountryCodeFromAPIStructureObject(weatherFromAPI);

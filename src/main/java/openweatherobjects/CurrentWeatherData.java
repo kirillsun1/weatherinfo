@@ -1,10 +1,10 @@
-package OpenWeatherStructures;
+package openweatherobjects;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 
-public final class CurrentWeatherDataStructure {
+public final class CurrentWeatherData {
     @SerializedName("coord")
     public HashMap<String, Float> coordinates;
     @SerializedName("sys")

@@ -1,0 +1,1 @@
+{"cityName":"Tallinn","countryCode":"EE","coordinates":{"latitude":59.439998626708984,"longitude":24.75},"temperatureUnit":"STANDART","currentWeather":277.1499938964844}

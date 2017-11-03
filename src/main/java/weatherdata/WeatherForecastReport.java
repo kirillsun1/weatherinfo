@@ -25,6 +25,10 @@ public class WeatherForecastReport {
         return city.getCityName();
     }
 
+    public String getCountryCode() {
+        return city.getCountryCode();
+    }
+
     public Coordinates getCoordinates() {
         return city.getCoordinates();
     }
@@ -33,7 +37,7 @@ public class WeatherForecastReport {
         return temperatureUnit;
     }
 
-    public String getCountryCode() {
-        return city.getCountryCode();
+    public List<ForecastOneDayWeather> getOneDayWeathers() {
+        return oneDayWeathers;
     }
 }

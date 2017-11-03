@@ -1,0 +1,4 @@
+{
+    cityname: "Tallinn",
+    country: "EE"
+}

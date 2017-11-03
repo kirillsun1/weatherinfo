@@ -1,6 +1,6 @@
 package weatherdata;
 
-import OpenWeatherStructures.Forecast5Days3HoursStructure;
+import openweatherobjects.Forecast5Days3HoursData;
 import city.City;
 import city.Coordinates;
 import com.google.gson.Gson;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WeatherForecastReportFabric {
-    private static ArrayList<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursStructure structureObject) {
+    private static ArrayList<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursData structureObject) {
         ArrayList<ForecastOneDayWeather> oneDayWeatherList = new ArrayList<>();
         LocalDate currentDay = null;
         ForecastOneDayWeather currentDayWeather = null;
@@ -53,7 +53,7 @@ public class WeatherForecastReportFabric {
         return oneDayWeatherList;
     }
 
-    private static String getCityNameFromAPIStructureObject(Forecast5Days3HoursStructure structureObject)
+    private static String getCityNameFromAPIStructureObject(Forecast5Days3HoursData structureObject)
             throws IncorrectAPIOutputException {
         String cityName = structureObject.city.name;
 
@@ -64,14 +64,14 @@ public class WeatherForecastReportFabric {
         return cityName;
     }
 
-    private static double[] getCoordinatesFromAPIStructureObject(Forecast5Days3HoursStructure structureObject) {
+    private static double[] getCoordinatesFromAPIStructureObject(Forecast5Days3HoursData structureObject) {
         return new double[]{
                 structureObject.city.coord.get("lon"),
                 structureObject.city.coord.get("lat")
         };
     }
 
-    private static String getCountryCodeFromAPIStructureObject(Forecast5Days3HoursStructure structureObject)
+    private static String getCountryCodeFromAPIStructureObject(Forecast5Days3HoursData structureObject)
             throws IncorrectAPIOutputException {
         String countryCode = structureObject.city.country;
 
@@ -85,7 +85,7 @@ public class WeatherForecastReportFabric {
     public static WeatherForecastReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
             throws IncorrectAPIOutputException {
         Gson gson = new GsonBuilder().create();
-        Forecast5Days3HoursStructure apiForecast = gson.fromJson(jsonFile, Forecast5Days3HoursStructure.class);
+        Forecast5Days3HoursData apiForecast = gson.fromJson(jsonFile, Forecast5Days3HoursData.class);
 
         String cityName = getCityNameFromAPIStructureObject(apiForecast);
         double[] coordinates = getCoordinatesFromAPIStructureObject(apiForecast);
