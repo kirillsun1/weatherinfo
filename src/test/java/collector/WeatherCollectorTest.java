@@ -22,18 +22,19 @@ public class WeatherCollectorTest {
     public void testWeatherCollectorUsesWeatherRepositoryMethods() {
         FileReader mockedReader = mock(FileReader.class);
         try {
-            when(mockedReader.readFile(anyString())).thenReturn(anyString());
+            when(mockedReader.readFile(anyString())).thenReturn("{cityname:\"Tallinn\", country:\"EE\"}");
         } catch (IOException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
-
         FileWriter mockedWriter = mock(FileWriter.class);
-
         WeatherRepository mockedRepo = mock(WeatherRepository.class);
-        when(mockedRepo.getWeatherForecastReport(any(WeatherRequest.class)))
-                .thenReturn(any(WeatherForecastReport.class));
-        when(mockedRepo.getCurrentWeatherReport(any(WeatherRequest.class)))
-                .thenReturn(any(CurrentWeatherReport.class));
+
+        // TODO: MORE MOCKS??
+
+        fail("don't know how to write");
+
+        when(mockedRepo.getCurrentWeatherReport(any(WeatherRequest.class))).thenReturn(mock(CurrentWeatherReport.class));
+        when(mockedRepo.getWeatherForecastReport(any(WeatherRequest.class))).thenReturn(mock(WeatherForecastReport.class));
 
         WeatherCollector collector = new WeatherCollector(mockedRepo, mockedReader, mockedWriter);
 

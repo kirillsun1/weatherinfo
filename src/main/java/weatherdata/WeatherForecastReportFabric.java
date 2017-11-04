@@ -27,7 +27,7 @@ public class WeatherForecastReportFabric {
                 currentDay = day;
                 if (currentDayWeather != null) {
                     oneDayWeatherList.add(currentDayWeather);
-                    System.out.println(currentDayWeather);
+                    // System.out.println(currentDayWeather);
                     if (oneDayWeatherList.size() >= WeatherForecastReport.DAYS_IN_FORECAST) {
                         break;
                     }

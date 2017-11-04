@@ -9,10 +9,12 @@ import utility.Constants;
 import utility.FileReader;
 import utility.FileWriter;
 import weatherdata.CurrentWeatherReport;
+import weatherdata.ForecastOneDayWeather;
 import weatherdata.WeatherForecastReport;
 import weatherdata.WeatherRequest;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class WeatherCollector {
     private final WeatherRepository weatherRepository;
@@ -60,6 +62,17 @@ public class WeatherCollector {
         Coordinates coordinates = currentWeatherReport.getCoordinates();
         outputFile.coordinates.put("longitude", coordinates.getLongitude());
         outputFile.coordinates.put("latitude", coordinates.getLatitude());
+        outputFile.forecast = new HashMap[WeatherForecastReport.DAYS_IN_FORECAST];
+        for (int i = 0; i < outputFile.forecast.length; i++) {
+            ForecastOneDayWeather oneDayWeather = weatherForecastReport.getOneDayWeathers().get(i);
+            HashMap<String, Object> dayMap = new HashMap<>();
+
+            dayMap.put("day", oneDayWeather.getCurrentDateTime().toString());
+            dayMap.put("min_temp", oneDayWeather.getMinimumTemperature());
+            dayMap.put("max_temp", oneDayWeather.getMinimumTemperature());
+
+            outputFile.forecast[i] = dayMap;
+        }
 
         writer.writeToFile(gson.toJson(outputFile), pathToOutputFile);
     }

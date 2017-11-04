@@ -7,7 +7,7 @@ import utility.Constants;
 import java.util.*;
 
 public class WeatherForecastReport {
-    static final int DAYS_IN_FORECAST = 3;
+    public static final int DAYS_IN_FORECAST = 3;
 
     private final City city;
     private final List<ForecastOneDayWeather> oneDayWeathers;
@@ -15,7 +15,6 @@ public class WeatherForecastReport {
 
     WeatherForecastReport(City city, List<ForecastOneDayWeather> oneDayWeathers,
                           Constants.TemperatureUnits temperatureUnit) {
-        oneDayWeathers = new ArrayList<>();
         this.city = city;
         this.oneDayWeathers = oneDayWeathers;
         this.temperatureUnit = temperatureUnit;
