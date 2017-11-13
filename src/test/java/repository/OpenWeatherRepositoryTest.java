@@ -7,7 +7,8 @@ import org.mockito.Mockito;
 import utility.Constants;
 import weatherdata.CurrentWeatherReport;
 import weatherdata.WeatherForecastReport;
-import weatherdata.WeatherRequest;
+import weatherrequest.WeatherRequest;
+import weatherrequest.WeatherRequestFactory;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.assertEquals;
@@ -15,6 +16,7 @@ import static org.junit.Assert.fail;
 
 public class OpenWeatherRepositoryTest {
     private WeatherRepository repository;
+    private WeatherRequestFactory weatherRequestFactory = new WeatherRequestFactory();
 
     @Before
     public void openRepositoryForTest() {
@@ -23,7 +25,7 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testGetCurrentWeatherForTallinn() {
-        WeatherRequest request = WeatherRequest.of("Tallinn", "EE");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EE");
         CurrentWeatherReport currentWeatherReport = null;
         try {
             currentWeatherReport = repository.getCurrentWeatherReport(request);
@@ -37,13 +39,13 @@ public class OpenWeatherRepositoryTest {
 
     @Test(expected = APIDataNotFoundException.class)
     public void testGetCurrentWeatherReportThrowExceptionIfIncorrectCity() throws APIDataNotFoundException {
-        WeatherRequest request = WeatherRequest.of("kjjgyiv", "EE");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("kjjgyiv", "EE");
         repository.getCurrentWeatherReport(request);
     }
 
     @Test(expected = APIDataNotFoundException.class)
     public void testGetCurrentWeatherForTallinnIncorrectCountryCode() throws APIDataNotFoundException {
-        WeatherRequest request = WeatherRequest.of("Tallinn", "EESE");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EESE");
         WeatherRepository mockedRepository = Mockito.mock(OpenWeatherRepository.class);
 
         doThrow(new APIDataNotFoundException()).when(mockedRepository).getCurrentWeatherReport(request);
@@ -53,7 +55,7 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testCurrentWeatherReportWithDefaultTemperatureUnit() {
-        WeatherRequest request = WeatherRequest.of("New York", "US");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
 
         CurrentWeatherReport report = null;
         try {
@@ -69,7 +71,7 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testCurrentWeatherReportWithNotDefaultTemperatureUnit() {
-        WeatherRequest request = WeatherRequest.of("New York", "US", Constants.TemperatureUnits.METRIC);
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US", Constants.TemperatureUnits.METRIC);
 
         CurrentWeatherReport report = null;
         try {
@@ -85,7 +87,7 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testGetWeatherForecastForTallinn() {
-        WeatherRequest request = WeatherRequest.of("Tallinn", "EE");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EE");
         WeatherForecastReport weatherForecastReport = null;
         try {
             weatherForecastReport = repository.getWeatherForecastReport(request);
@@ -99,14 +101,14 @@ public class OpenWeatherRepositoryTest {
 
     @Test(expected = APIDataNotFoundException.class)
     public void testGetWeatherForecastForIncorrectCity() throws APIDataNotFoundException {
-        WeatherRequest request = WeatherRequest.of("NoCity", "EE");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("NoCity", "EE");
 
         repository.getWeatherForecastReport(request);
     }
 
     @Test
     public void testWeatherForecastReportWithDefaultTemperatureUnit() {
-        WeatherRequest request = WeatherRequest.of("New York", "US");
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
 
         WeatherForecastReport report = null;
         try {
@@ -122,7 +124,7 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testWeatherForecastReportWithNotDefaultTemperatureUnit() {
-        WeatherRequest request = WeatherRequest.of("New York", "US", Constants.TemperatureUnits.IMPERIAL);
+        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US", Constants.TemperatureUnits.IMPERIAL);
 
         WeatherForecastReport report = null;
         try {

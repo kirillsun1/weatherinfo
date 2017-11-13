@@ -3,7 +3,7 @@ package repository;
 import exceptions.APIDataNotFoundException;
 import weatherdata.CurrentWeatherReport;
 import weatherdata.WeatherForecastReport;
-import weatherdata.WeatherRequest;
+import weatherrequest.WeatherRequest;
 
 public interface WeatherRepository {
     WeatherForecastReport getWeatherForecastReport(WeatherRequest request) throws APIDataNotFoundException;

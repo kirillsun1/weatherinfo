@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.IncorrectAPIOutputException;
 import utility.Utils;
+import weatherrequest.WeatherRequest;
 
 public class CurrentWeatherReportFabric {
     private static String getCityNameFromAPIStructureObject(CurrentWeatherData structureObject)

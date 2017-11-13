@@ -5,6 +5,7 @@ import exceptions.IncorrectAPIOutputException;
 import network.HTTPConnection;
 import utility.Constants;
 import weatherdata.*;
+import weatherrequest.WeatherRequest;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -34,7 +35,7 @@ public class OpenWeatherRepository implements WeatherRepository {
         try {
             HTTPConnection connection = HTTPConnection.createConnectionFromURL(connectionLink);
             if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                throw new APIDataNotFoundException("Invalid data!");
+                throw new APIDataNotFoundException("Report not found!");
             }
             return connection;
         } catch (IOException e) {

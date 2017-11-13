@@ -8,7 +8,7 @@ public class Constants {
             return STANDART;
         }
 
-        public static TemperatureUnits of(String tempUnit) throws IllegalAccessException {
+        public static TemperatureUnits of(String tempUnit) {
             switch (tempUnit.toLowerCase()) {
                 case "standart":
                     return STANDART;
@@ -20,7 +20,7 @@ public class Constants {
                     return IMPERIAL;
 
                 default:
-                    throw new IllegalAccessException("Incorrect temperature unit!");
+                    throw new IllegalArgumentException(String.format("Incorrect temperature unit [%s]", tempUnit));
             }
         }
     }

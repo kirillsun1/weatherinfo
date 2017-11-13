@@ -1,4 +1,5 @@
 {
     cityname: "Tallinn",
-    country: "EE"
+    country: "EE",
+    tempunit: "metric"
 }

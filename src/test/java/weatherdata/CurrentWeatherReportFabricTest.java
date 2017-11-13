@@ -3,6 +3,7 @@ package weatherdata;
 import exceptions.IncorrectAPIOutputException;
 import org.junit.Test;
 import utility.Constants;
+import weatherrequest.WeatherRequest;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
