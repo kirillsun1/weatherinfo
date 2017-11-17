@@ -7,7 +7,7 @@ import utility.Constants;
 import java.util.*;
 
 public class WeatherForecastReport {
-    public static final int DAYS_IN_FORECAST = 3;
+    static final int DAYS_IN_FORECAST = 3;
 
     private final City city;
     private final List<ForecastOneDayWeather> oneDayWeathers;

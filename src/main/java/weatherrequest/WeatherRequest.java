@@ -2,6 +2,8 @@ package weatherrequest;
 
 import utility.Constants;
 
+import java.util.Optional;
+
 public class WeatherRequest {
     String cityName;
     String cityCode;
@@ -15,8 +17,8 @@ public class WeatherRequest {
         return cityName;
     }
 
-    public String getCountryCode() {
-        return cityCode;
+    public Optional<String> getCountryCode() {
+        return cityCode != null ? Optional.of(cityCode) : Optional.empty();
     }
 
     public Constants.TemperatureUnits getTemperatureUnit() {

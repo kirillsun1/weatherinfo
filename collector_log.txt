@@ -1,0 +1,8 @@
+Nov 17, 2017 7:59:10 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+WARNING: City "456" skipped due to report getting fail.
+Nov 17, 2017 7:59:10 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+WARNING: City "777" skipped due to report getting fail.
+Nov 17, 2017 7:59:10 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+WARNING: City "123" skipped due to report getting fail.
+Nov 17, 2017 7:59:10 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+WARNING: City "123" skipped due to report getting fail.

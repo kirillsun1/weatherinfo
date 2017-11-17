@@ -1,12 +1,12 @@
 package tasks;
 
-import iofiles.ReportFile;
-import iofiles.RequestFile;
+import io.InputFileReader;
+import io.OutputFileWriter;
+import io.RequestFile;
 import org.junit.Test;
 import repository.WeatherRepository;
 import utility.*;
-import weatherdata.CurrentWeatherReport;
-import weatherdata.WeatherForecastReport;
+import weatherdata.WeatherDataCollector;
 import weatherrequest.WeatherRequest;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class WeatherCollectTaskTest {
+public class WeatherDataWritingTaskTest {
     @Test
     public void testWeatherCollectorUsesWeatherRepositoryMethods() {
         try {
@@ -25,15 +25,17 @@ public class WeatherCollectTaskTest {
             RequestFile mockedRequestFile = mock(RequestFile.class);
             OutputFileWriter mockedWriter = mock(OutputFileWriter.class);
 
+            when(mockedRequestFile.getCitiesNames()).thenReturn(new String[]{"Tallinn", "Tartu"});
             when(mockedRequestFile.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.METRIC.toString());
             when(mockedReader.readFromFile(anyString())).thenReturn(mockedRequestFile);
 
-            WeatherCollectTask weatherCollectTask = new WeatherCollectTask(mockedRepository, mockedReader, mockedWriter);
+            WeatherDataWritingTask weatherDataWritingTask = new WeatherDataWritingTask(
+                    new WeatherDataCollector(mockedRepository), mockedReader, mockedWriter);
 
-            weatherCollectTask.saveWeatherDataToFile("1", "2");
+            weatherDataWritingTask.writeWeatherDataToFile("1");
 
-            verify(mockedRepository, times(1)).getWeatherForecastReport(any(WeatherRequest.class));
-            verify(mockedRepository, times(1)).getCurrentWeatherReport(any(WeatherRequest.class));
+            verify(mockedRepository, times(2)).getWeatherForecastReport(any(WeatherRequest.class));
+            verify(mockedRepository, times(2)).getCurrentWeatherReport(any(WeatherRequest.class));
         } catch (IOException ex) {
             fail(ex.getMessage());
         }

@@ -1,7 +1,7 @@
-package utility;
+package io;
 
-import iofiles.RequestFile;
 import org.junit.Test;
+import utility.FileReader;
 
 import java.io.IOException;
 
@@ -11,9 +11,9 @@ import static org.mockito.Mockito.when;
 
 public class InputFileReaderTest {
     @Test
-    public void testReadInputFile() {
+    public void testReadInputFileOneCity() {
         try {
-            String inputFile = "{cityname: \"Tartu\", country: \"EE\", tempunit: \"standart\"}";
+            String inputFile = "{cities: [\"Tartu\"], tempunit: \"standart\"}";
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
 
@@ -21,8 +21,25 @@ public class InputFileReaderTest {
 
             RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
 
-            assertEquals("Tartu", requestFile.getCityName());
-            assertEquals("EE", requestFile.getCountryCode());
+            assertArrayEquals(new String[]{"Tartu"}, requestFile.getCitiesNames());
+            assertEquals("standart", requestFile.getTemperatureUnit());
+        } catch (IOException ex) {
+            fail("Error occurred: " + ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testReadInputFileSeveralCities() {
+        try {
+            String inputFile = "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standart\"}";
+            FileReader readerMock = mock(FileReader.class);
+            when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
+
+            InputFileReader inputFileReader = new InputFileReader(readerMock);
+
+            RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
+
+            assertArrayEquals(new String[]{"Tartu", "Pärnu", "Maardu"}, requestFile.getCitiesNames());
             assertEquals("standart", requestFile.getTemperatureUnit());
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
