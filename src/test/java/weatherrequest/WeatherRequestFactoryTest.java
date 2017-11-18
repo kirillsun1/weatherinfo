@@ -1,7 +1,5 @@
 package weatherrequest;
 
-import com.sun.org.apache.regexp.internal.RE;
-import io.ReportFile;
 import io.RequestFile;
 import org.junit.Before;
 import org.junit.Test;

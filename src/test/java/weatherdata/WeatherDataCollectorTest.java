@@ -9,7 +9,6 @@ import weatherrequest.WeatherRequest;
 import weatherrequest.WeatherRequestFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;

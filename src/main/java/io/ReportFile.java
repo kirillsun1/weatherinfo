@@ -1,13 +1,11 @@
 package io;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import weatherdata.CurrentWeatherReport;
 import weatherdata.WeatherForecastReport;
 
 public class ReportFile {
-    @Expose
-    private String cityName;
+    private final transient String cityName;
     @SerializedName("current")
     private final CurrentWeatherReport currentWeatherReport;
     @SerializedName("forecast")

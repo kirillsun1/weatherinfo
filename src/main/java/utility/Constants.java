@@ -2,16 +2,16 @@ package utility;
 
 public class Constants {
     public enum TemperatureUnits {
-        STANDART, METRIC, IMPERIAL;
+        STANDARD, METRIC, IMPERIAL;
 
         public static TemperatureUnits getUnitByDefault() {
-            return STANDART;
+            return STANDARD;
         }
 
         public static TemperatureUnits of(String tempUnit) {
             switch (tempUnit.toLowerCase()) {
-                case "standart":
-                    return STANDART;
+                case "standard":
+                    return STANDARD;
 
                 case "metric":
                     return METRIC;

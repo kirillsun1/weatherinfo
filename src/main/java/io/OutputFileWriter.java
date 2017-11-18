@@ -1,7 +1,6 @@
 package io;
 
 import com.google.gson.Gson;
-import io.ReportFile;
 import utility.FileWriter;
 
 import java.io.IOException;

@@ -1,2 +1,2 @@
-Nov 18, 2017 5:27:40 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
-WARNING: City "Hello" skipped due to report getting fail.
+Nov 18, 2017 5:46:12 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+WARNING: ERROR [City: Hello]: Report not found: https://api.openweathermap.org/data/2.5/weather?q=Hello&APPID=846ff6c4ed10c7be2825f677097f8376

@@ -3,7 +3,6 @@ package repository;
 import exceptions.APIDataNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import utility.Constants;
 import weatherdata.CurrentWeatherReport;
@@ -71,7 +70,7 @@ public class OpenWeatherRepositoryTest {
         CurrentWeatherReport currentWeatherReportMock = mock(CurrentWeatherReport.class);
         when(currentWeatherReportMock.getCityName()).thenReturn("New York");
         when(currentWeatherReportMock.getCountryCode()).thenReturn("US");
-        when(currentWeatherReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDART);
+        when(currentWeatherReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDARD);
 
         when(repositoryMock.getCurrentWeatherReport(request)).thenReturn(currentWeatherReportMock);
 
@@ -125,7 +124,7 @@ public class OpenWeatherRepositoryTest {
         try {
             weatherForecastReport = repositoryMock.getWeatherForecastReport(request);
         } catch (APIDataNotFoundException e) {
-            fail("Error occured: " + e.getMessage());
+            fail("Error occurred: " + e.getMessage());
         }
 
         assertEquals(request.getCityName(), weatherForecastReport.getCityName());
@@ -148,7 +147,7 @@ public class OpenWeatherRepositoryTest {
         WeatherForecastReport currentWeatherReportMock = mock(WeatherForecastReport.class);
         when(currentWeatherReportMock.getCityName()).thenReturn("New York");
         when(currentWeatherReportMock.getCountryCode()).thenReturn("US");
-        when(currentWeatherReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDART);
+        when(currentWeatherReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDARD);
 
         when(repositoryMock.getWeatherForecastReport(request)).thenReturn(currentWeatherReportMock);
 

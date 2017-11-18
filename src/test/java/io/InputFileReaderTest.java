@@ -6,14 +6,13 @@ import utility.FileReader;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class InputFileReaderTest {
     @Test
     public void testCitiesAreNotSpecified() {
         try {
-            String inputFile = "{tempunit: \"standart\"}";
+            String inputFile = "{tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
 
@@ -22,7 +21,7 @@ public class InputFileReaderTest {
             RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
 
             assertNull(requestFile.getCitiesNames());
-            assertEquals("standart", requestFile.getTemperatureUnit());
+            assertEquals("standard", requestFile.getTemperatureUnit());
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
         }
@@ -31,7 +30,7 @@ public class InputFileReaderTest {
     @Test
     public void testCitiesListIsEmpty() {
         try {
-            String inputFile = "{cities: [], tempunit: \"standart\"}";
+            String inputFile = "{cities: [], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
 
@@ -40,7 +39,7 @@ public class InputFileReaderTest {
             RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
 
             assertArrayEquals(new String[]{}, requestFile.getCitiesNames());
-            assertEquals("standart", requestFile.getTemperatureUnit());
+            assertEquals("standard", requestFile.getTemperatureUnit());
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
         }
@@ -49,7 +48,7 @@ public class InputFileReaderTest {
     @Test
     public void testOnlyOneCity() {
         try {
-            String inputFile = "{cities: [\"Tartu\"], tempunit: \"standart\"}";
+            String inputFile = "{cities: [\"Tartu\"], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
 
@@ -58,7 +57,7 @@ public class InputFileReaderTest {
             RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
 
             assertArrayEquals(new String[]{"Tartu"}, requestFile.getCitiesNames());
-            assertEquals("standart", requestFile.getTemperatureUnit());
+            assertEquals("standard", requestFile.getTemperatureUnit());
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
         }
@@ -85,7 +84,7 @@ public class InputFileReaderTest {
     @Test
     public void testSeveralCities() {
         try {
-            String inputFile = "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standart\"}";
+            String inputFile = "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile("test1.txt")).thenReturn(inputFile);
 
@@ -94,7 +93,7 @@ public class InputFileReaderTest {
             RequestFile requestFile = inputFileReader.readFromFile("test1.txt");
 
             assertArrayEquals(new String[]{"Tartu", "Pärnu", "Maardu"}, requestFile.getCitiesNames());
-            assertEquals("standart", requestFile.getTemperatureUnit());
+            assertEquals("standard", requestFile.getTemperatureUnit());
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
         }
@@ -115,7 +114,7 @@ public class InputFileReaderTest {
         try {
             FileReader readerMock = mock(FileReader.class);
             when(readerMock.readFile(anyString())).thenReturn(
-                    "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standart\"}");
+                    "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standard\"}");
 
             InputFileReader inputFileReader = new InputFileReader(readerMock);
 

@@ -41,8 +41,8 @@ public class WeatherDataCollector {
 
                         return new ReportFile(request.getCityName(), currentWeatherReport, weatherForecastReport);
                     } catch (APIDataNotFoundException ex) {
-                        LOGGER.warning(String.format("City \"%s\" skipped due to report getting fail.",
-                                request.getCityName()));
+                        LOGGER.warning(String.format("ERROR [City: %s]: %s",
+                                request.getCityName(), ex.getMessage()));
                         return null; // will be soon filtered out from the list
                     }
                 })

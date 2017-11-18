@@ -21,8 +21,8 @@ public class OpenWeatherRepository implements WeatherRepository {
                 "" : String.format("&units=%s", request.getTemperatureUnit().toString().toLowerCase());
 
         Optional<String> countryCode = request.getCountryCode();
-        String cityData = countryCode.isPresent() ?
-                String.format("%s,%s", request.getCityName(), countryCode.get()) : request.getCityName();
+        String cityData = countryCode.map(s -> String.format("%s,%s", request.getCityName(), s))
+                .orElseGet(request::getCityName);
 
         return String.format("q=%s%s&APPID=%s", cityData, tempUnitString, API_KEY);
     }
