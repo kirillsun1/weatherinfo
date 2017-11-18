@@ -15,6 +15,12 @@ public class WeatherRequestFactory {
         return request;
     }
 
+    public WeatherRequest makeWeatherRequest(String cityName, Constants.TemperatureUnits tempUnit) {
+        WeatherRequest request = makeWeatherRequest(cityName);
+        request.tempUnit = tempUnit;
+        return request;
+    }
+
     public WeatherRequest makeWeatherRequest(String cityName, String countryCode) {
         WeatherRequest request = makeWeatherRequest(cityName);
         request.cityCode = countryCode;

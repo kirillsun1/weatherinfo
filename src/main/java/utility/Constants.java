@@ -2,7 +2,13 @@ package utility;
 
 public class Constants {
     public enum TemperatureUnits {
-        STANDARD, METRIC, IMPERIAL;
+        STANDARD("°K"), METRIC("°C"), IMPERIAL("°F");
+
+        private String symbol;
+
+        TemperatureUnits(String symbol) {
+            this.symbol = symbol;
+        }
 
         public static TemperatureUnits getUnitByDefault() {
             return STANDARD;
@@ -20,8 +26,12 @@ public class Constants {
                     return IMPERIAL;
 
                 default:
-                    throw new IllegalArgumentException(String.format("Incorrect temperature unit [%s]", tempUnit));
+                    throw new IllegalArgumentException(String.format("Incorrect temperature unit: %s", tempUnit));
             }
+        }
+
+        public String getSymbol() {
+            return symbol;
         }
     }
 }

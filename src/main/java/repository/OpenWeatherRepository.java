@@ -39,7 +39,7 @@ public class OpenWeatherRepository implements WeatherRepository {
         try {
             HTTPConnection connection = HTTPConnection.createConnectionFromURL(connectionLink);
             if (connection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                throw new APIDataNotFoundException("Report not found: " + connectionLink);
+                throw new APIDataNotFoundException("Report not found!");
             }
             return connection;
         } catch (IOException e) {
