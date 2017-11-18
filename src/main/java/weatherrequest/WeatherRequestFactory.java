@@ -38,7 +38,6 @@ public class WeatherRequestFactory {
             throw new IllegalArgumentException("Cities missed!");
         }
 
-
         return Arrays.stream(inputFile.getCitiesNames())
                 .map(n -> {
                     WeatherRequest request = makeWeatherRequest(n);

@@ -1,4 +1,3 @@
 {
-    cities: ["Tallinn", "Tartu", "New york", "Hello"],
-    tempunit: "metric"
+    cities: ["Tallinn", "Tartu", "New york", "Hello"]
 }

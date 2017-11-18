@@ -1,11 +1,15 @@
 package weatherrequest;
 
+import com.sun.org.apache.regexp.internal.RE;
+import io.ReportFile;
+import io.RequestFile;
 import org.junit.Before;
 import org.junit.Test;
 import utility.Constants;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class WeatherRequestFactoryTest {
     private WeatherRequestFactory factory;
@@ -28,5 +32,13 @@ public class WeatherRequestFactoryTest {
                 Constants.TemperatureUnits.METRIC);
 
         assertEquals(Constants.TemperatureUnits.METRIC, request.getTemperatureUnit());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testThrowsExceptionIfNoCities() {
+        RequestFile requestFileMock = mock(RequestFile.class);
+        when(requestFileMock.getCitiesNames()).thenReturn(null);
+
+        factory.makeWeatherRequests(requestFileMock);
     }
 }

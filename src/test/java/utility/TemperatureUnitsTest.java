@@ -13,7 +13,7 @@ public class TemperatureUnitsTest {
     }
 
     @Test
-    public void testGetTempUnitFromStringIfAllLettersAreUppered() {
+    public void testGetTempUnitFromStringIfAllLettersAreUpper() {
         assertEquals(Constants.TemperatureUnits.STANDART, Constants.TemperatureUnits.of("STANDART"));
         assertEquals(Constants.TemperatureUnits.METRIC, Constants.TemperatureUnits.of("METRIC"));
         assertEquals(Constants.TemperatureUnits.IMPERIAL, Constants.TemperatureUnits.of("Imperial"));
