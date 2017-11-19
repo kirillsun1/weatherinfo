@@ -39,4 +39,9 @@ public class WeatherRequestFactoryTest {
 
         factory.makeWeatherRequests(requestFileMock);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testThrowsExceptionIfIncorrectCountryCode() {
+        factory.makeWeatherRequest("Tartu", "EEE");
+    }
 }

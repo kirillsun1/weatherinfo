@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 
 public class InputFileReaderTest {
     @Test
-    public void testCitiesAreNotSpecified() {
+    public void testNoCitiesInRequestIfNoCitiesInFile() {
         try {
             String inputFile = "{tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
@@ -28,7 +28,7 @@ public class InputFileReaderTest {
     }
 
     @Test
-    public void testCitiesListIsEmpty() {
+    public void testEmptyCitiesArrayIfCitiesListInFileIsEmpty() {
         try {
             String inputFile = "{cities: [], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
@@ -46,7 +46,7 @@ public class InputFileReaderTest {
     }
 
     @Test
-    public void testOnlyOneCity() {
+    public void testOnlyOneCityInRequestFileIfOnlyOneIsSpecified() {
         try {
             String inputFile = "{cities: [\"Tartu\"], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);
@@ -64,7 +64,7 @@ public class InputFileReaderTest {
     }
 
     @Test
-    public void testTempUnitIsNotSpecified() {
+    public void testTempUnitIsNullInRequestFileIfItIsNotSpecifiedInFile() {
         try {
             String inputFile = "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"]}";
             FileReader readerMock = mock(FileReader.class);
@@ -82,7 +82,7 @@ public class InputFileReaderTest {
     }
 
     @Test
-    public void testSeveralCities() {
+    public void testAllTheCitiesFromTheFileAreInRequestFile() {
         try {
             String inputFile = "{cities: [\"Tartu\", \"Pärnu\", \"Maardu\"], tempunit: \"standard\"}";
             FileReader readerMock = mock(FileReader.class);

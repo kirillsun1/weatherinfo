@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 import exceptions.IncorrectAPIOutputException;
+import utility.Utils;
 import weatherrequest.WeatherRequest;
 
 import java.time.LocalDate;
@@ -67,8 +68,8 @@ public class WeatherForecastReportFabric {
 
     private static double[] getCoordinatesFromAPIStructureObject(Forecast5Days3HoursData structureObject) {
         return new double[]{
-                structureObject.city.coord.get("lon"),
-                structureObject.city.coord.get("lat")
+                structureObject.city.coordinates.get("lon"),
+                structureObject.city.coordinates.get("lat")
         };
     }
 
@@ -76,7 +77,7 @@ public class WeatherForecastReportFabric {
             throws IncorrectAPIOutputException {
         String countryCode = structureObject.city.country;
 
-        if (countryCode == null) {
+        if (countryCode == null && !Utils.isCountryCodeCorrect(countryCode)) {
             throw new IncorrectAPIOutputException("Incorrect country code!");
         }
 

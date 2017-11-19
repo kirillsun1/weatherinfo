@@ -2,6 +2,7 @@ package weatherrequest;
 
 import io.RequestFile;
 import utility.Constants;
+import utility.Utils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,11 @@ public class WeatherRequestFactory {
 
     public WeatherRequest makeWeatherRequest(String cityName, String countryCode) {
         WeatherRequest request = makeWeatherRequest(cityName);
+
+        if (!Utils.isCountryCodeCorrect(countryCode)) {
+            throw new IllegalArgumentException("Incorrect country code!");
+        }
+
         request.cityCode = countryCode;
 
         return request;

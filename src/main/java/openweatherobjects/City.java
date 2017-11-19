@@ -1,9 +1,12 @@
 package openweatherobjects;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 
 public class City {
     public String name;
-    public HashMap<String, Double> coord;
+    @SerializedName("coord")
+    public HashMap<String, Double> coordinates;
     public String country;
 }
