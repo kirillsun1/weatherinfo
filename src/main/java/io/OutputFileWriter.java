@@ -6,14 +6,20 @@ import utility.FileWriter;
 import java.io.IOException;
 
 public class OutputFileWriter {
+    private static final String OUTPUT_FILE_PATH = "weather_%s.json";
+
     private final FileWriter writer;
 
     public OutputFileWriter(FileWriter writer) {
         this.writer = writer;
     }
 
-    public void writeToFile(ReportFile file, String pathToOutputFile) throws IOException {
+    private static String getOutputFilePath(String cityName) {
+        return String.format(OUTPUT_FILE_PATH, cityName);
+    }
+
+    public void writeReportToFile(ReportFile file) throws IOException {
         Gson gson = new Gson();
-        writer.writeToFile(gson.toJson(file), pathToOutputFile);
+        writer.writeToFile(gson.toJson(file), getOutputFilePath(file.getCityName()));
     }
 }

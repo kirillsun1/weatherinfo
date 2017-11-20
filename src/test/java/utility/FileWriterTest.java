@@ -12,8 +12,8 @@ public class FileWriterTest {
     public void testFileWriterCreatesFile() {
         try {
             String fileName = "filewritertest.txt";
-            File testFile = new File(fileName);
 
+            File testFile = new File(fileName);
             testFile.delete();
 
             FileWriter writer = new FileWriter();

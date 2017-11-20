@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,9 +20,9 @@ public class OutputFileWriterTest {
 
             ReportFile reportFile = new ReportFile("name", null, null);
 
-            outputFileWriter.writeToFile(reportFile, "mocked");
+            outputFileWriter.writeReportToFile(reportFile);
 
-            verify(writerMock, times(1)).writeToFile(anyString(), eq("mocked"));
+            verify(writerMock, times(1)).writeToFile(anyString(), anyString());
         } catch (IOException e) {
             fail("Error occurred: " + e.getMessage());
         }

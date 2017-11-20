@@ -114,6 +114,7 @@ public class WeatherDataConsoleUITest {
 
         when(consoleReaderMock.readValueFromConsole(anyString())).thenAnswer(new Answer() {
             private int count = 0;
+
             @Override
             public String answer(InvocationOnMock invocation) throws Throwable {
                 switch (count++) {

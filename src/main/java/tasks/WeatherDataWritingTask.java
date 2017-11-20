@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class WeatherDataWritingTask {
-    private static final String OUTPUT_FILE_PATH = "weather_%s.json";
-
     private final WeatherDataCollector weatherDataCollector;
     private final InputFileReader inputFileReader;
     private final OutputFileWriter outputFileWriter;
@@ -24,10 +22,6 @@ public class WeatherDataWritingTask {
         this.outputFileWriter = outputFileWriter;
     }
 
-    private static String getOutputFilePath(String cityName) {
-        return String.format(OUTPUT_FILE_PATH, cityName);
-    }
-
     public void writeWeatherDataToFile(String pathToInputFile) throws IOException {
         WeatherRequestFactory weatherRequestFactory = new WeatherRequestFactory();
 
@@ -35,7 +29,7 @@ public class WeatherDataWritingTask {
                 weatherRequestFactory.makeWeatherRequests(inputFileReader.readFromFile(pathToInputFile));
 
         for (ReportFile reportFile : weatherDataCollector.getReportFiles(requests)) {
-            outputFileWriter.writeToFile(reportFile, getOutputFilePath(reportFile.getCityName()));
+            outputFileWriter.writeReportToFile(reportFile);
         }
     }
 }

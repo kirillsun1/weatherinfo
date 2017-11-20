@@ -1,8 +1,8 @@
-Nov 19, 2017 8:49:02 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+Nov 20, 2017 5:04:47 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
 WARNING: ERROR [City: 456]: null
-Nov 19, 2017 8:49:02 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+Nov 20, 2017 5:04:47 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
 WARNING: ERROR [City: 777]: null
-Nov 19, 2017 8:49:02 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+Nov 20, 2017 5:04:47 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
 WARNING: ERROR [City: 123]: null
-Nov 19, 2017 8:49:02 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
+Nov 20, 2017 5:04:47 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
 WARNING: ERROR [City: 123]: null
