@@ -1,5 +1,6 @@
 package io;
 
+import exceptions.FailedToReadInputFileException;
 import org.junit.Test;
 import utility.FileReader;
 
@@ -99,7 +100,7 @@ public class InputFileReaderTest {
         }
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = FailedToReadInputFileException.class)
     public void testThrowsExceptionIfNoFile() throws IOException {
         FileReader readerMock = mock(FileReader.class);
         when(readerMock.readFile("aa.txt")).thenThrow(IOException.class);
@@ -124,5 +125,15 @@ public class InputFileReaderTest {
         } catch (IOException ex) {
             fail("Error occurred: " + ex.getMessage());
         }
+    }
+
+    @Test(expected = FailedToReadInputFileException.class)
+    public void testThrowsExceptionIfInputIsIncorrect() throws IOException {
+        FileReader readerMock = mock(FileReader.class);
+        when(readerMock.readFile(anyString())).thenReturn("non-json");
+
+        InputFileReader inputFileReader = new InputFileReader(readerMock);
+
+        inputFileReader.readFromFile("testing_method_usage.txt");
     }
 }

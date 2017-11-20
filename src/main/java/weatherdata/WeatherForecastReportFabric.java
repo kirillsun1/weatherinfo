@@ -11,6 +11,7 @@ import utility.Utils;
 import weatherrequest.WeatherRequest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -21,10 +22,15 @@ public class WeatherForecastReportFabric {
     private static ArrayList<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursData structureObject) {
         ArrayList<ForecastOneDayWeather> oneDayWeatherList = new ArrayList<>();
         LocalDate currentDay = null;
+        LocalDate todayDate = LocalDate.now();
         ForecastOneDayWeather currentDayWeather = null;
         for (HashMap<String, Object> listHashMap : structureObject.list) {
             String dateTimeString = (String) listHashMap.get("dt_txt");
             LocalDate day = LocalDate.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            // TODO: ask if today date should be included.
+            if (Math.abs(ChronoUnit.DAYS.between(day, todayDate)) < 1) {
+                continue;
+            }
             if (currentDay == null || Math.abs(ChronoUnit.DAYS.between(day, currentDay)) >= 1) {
                 currentDay = day;
                 if (currentDayWeather != null) {

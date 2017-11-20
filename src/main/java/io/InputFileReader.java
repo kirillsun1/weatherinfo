@@ -1,6 +1,8 @@
 package io;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import exceptions.FailedToReadInputFileException;
 import io.RequestFile;
 import utility.FileReader;
 
@@ -13,8 +15,12 @@ public class InputFileReader {
         this.reader = reader;
     }
 
-    public RequestFile readFromFile(String pathToInputFile) throws IOException {
+    public RequestFile readFromFile(String pathToInputFile) throws FailedToReadInputFileException {
         Gson gson = new Gson();
-        return gson.fromJson(reader.readFile(pathToInputFile), RequestFile.class);
+        try {
+            return gson.fromJson(reader.readFile(pathToInputFile), RequestFile.class);
+        } catch (IOException | JsonSyntaxException ex) {
+            throw new FailedToReadInputFileException();
+        }
     }
 }
