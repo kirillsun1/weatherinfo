@@ -1,7 +1,6 @@
 package repository;
 
 import exceptions.APIDataNotFoundException;
-import exceptions.IncorrectAPIOutputException;
 import org.junit.Before;
 import org.junit.Test;
 import utility.Constants;
@@ -10,12 +9,8 @@ import weatherdata.WeatherForecastReport;
 import weatherrequest.WeatherRequest;
 import weatherrequest.WeatherRequestFactory;
 
-import java.util.Optional;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class OpenWeatherRepositoryTest {
     private final WeatherRequestFactory weatherRequestFactory = new WeatherRequestFactory();
@@ -46,50 +41,48 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testTemperatureUnitInCurrentWeatherReportIsTheSameIfItIsNotSpecifiedInRequest() {
-        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
-
-        CurrentWeatherReport report = null;
         try {
-            report = repository.getCurrentWeatherReport(request);
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
+
+            CurrentWeatherReport report = repository.getCurrentWeatherReport(request);
+
+            assertEquals("New York", report.getCityName());
+            assertEquals("US", report.getCountryCode());
+            assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
         } catch (APIDataNotFoundException e) {
             fail("Error occurred: " + e.getMessage());
         }
-
-        assertEquals("New York", report.getCityName());
-        assertEquals("US", report.getCountryCode());
-        assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
     }
 
     @Test
     public void testTempUnitInTheCurrentWeatherReportIsTheSameAsInRequest() {
-        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US",
-                Constants.TemperatureUnits.METRIC);
-
-        CurrentWeatherReport report = null;
         try {
-            report = repository.getCurrentWeatherReport(request);
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US",
+                    Constants.TemperatureUnits.METRIC);
+
+            CurrentWeatherReport report = repository.getCurrentWeatherReport(request);
+
+            assertEquals("New York", report.getCityName());
+            assertEquals("US", report.getCountryCode());
+            assertEquals(Constants.TemperatureUnits.METRIC, report.getTemperatureUnit());
         } catch (APIDataNotFoundException e) {
             fail("Error occurred: " + e.getMessage());
         }
-
-        assertEquals("New York", report.getCityName());
-        assertEquals("US", report.getCountryCode());
-        assertEquals(Constants.TemperatureUnits.METRIC, report.getTemperatureUnit());
     }
 
     @Test
     public void testRepositoryGivesForecastForTheSameCityAsInRequest() {
-        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EE");
-
-        WeatherForecastReport weatherForecastReport = null;
         try {
-            weatherForecastReport = repository.getWeatherForecastReport(request);
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EE");
+
+            WeatherForecastReport weatherForecastReport =
+                    weatherForecastReport = repository.getWeatherForecastReport(request);
+
+            assertEquals(request.getCityName(), weatherForecastReport.getCityName());
+            assertEquals(request.getCountryCode().get(), weatherForecastReport.getCountryCode());
         } catch (APIDataNotFoundException e) {
             fail("Error occurred: " + e.getMessage());
         }
-
-        assertEquals(request.getCityName(), weatherForecastReport.getCityName());
-        assertEquals(request.getCountryCode().get(), weatherForecastReport.getCountryCode());
     }
 
     @Test(expected = APIDataNotFoundException.class)
@@ -101,34 +94,32 @@ public class OpenWeatherRepositoryTest {
 
     @Test
     public void testTemperatureUnitInForecastIsTheSameIfItIsNotSpecifiedInRequest() {
-        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
-
-        WeatherForecastReport report = null;
         try {
-            report = repository.getWeatherForecastReport(request);
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US");
+
+            WeatherForecastReport report = repository.getWeatherForecastReport(request);
+
+            assertEquals("New York", report.getCityName());
+            assertEquals("US", report.getCountryCode());
+            assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
         } catch (APIDataNotFoundException e) {
             fail("Error occurred: " + e.getMessage());
         }
-
-        assertEquals("New York", report.getCityName());
-        assertEquals("US", report.getCountryCode());
-        assertEquals(Constants.TemperatureUnits.getUnitByDefault(), report.getTemperatureUnit());
     }
 
     @Test
     public void testTempUnitInForecastReportIsTheSameAsInRequest() {
-        WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US",
-                Constants.TemperatureUnits.IMPERIAL);
-
-        WeatherForecastReport report = null;
         try {
-            report = repository.getWeatherForecastReport(request);
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US",
+                    Constants.TemperatureUnits.IMPERIAL);
+
+            WeatherForecastReport report = report = repository.getWeatherForecastReport(request);
+
+            assertEquals("New York", report.getCityName());
+            assertEquals("US", report.getCountryCode());
+            assertEquals(Constants.TemperatureUnits.IMPERIAL, report.getTemperatureUnit());
         } catch (APIDataNotFoundException e) {
             fail("Error occurred: " + e.getMessage());
         }
-
-        assertEquals("New York", report.getCityName());
-        assertEquals("US", report.getCountryCode());
-        assertEquals(Constants.TemperatureUnits.IMPERIAL, report.getTemperatureUnit());
     }
 }
