@@ -1,17 +1,57 @@
 package ui;
 
+import city.Coordinates;
 import io.ConsoleReader;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import repository.WeatherRepository;
+import utility.Constants;
+import weatherdata.CurrentWeatherReport;
+import weatherdata.ForecastOneDayWeather;
+import weatherdata.WeatherForecastReport;
 import weatherrequest.WeatherRequest;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class WeatherDataConsoleUITest {
+    private WeatherRepository repositoryMock;
+
+    @Before
+    public void setupRepository() {
+        repositoryMock = mock(WeatherRepository.class);
+
+        CurrentWeatherReport currentWeatherReportMock = mock(CurrentWeatherReport.class);
+        when(currentWeatherReportMock.getCityName()).thenReturn("DummyName");
+        when(currentWeatherReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDARD);
+        when(currentWeatherReportMock.getCoordinates()).thenReturn(Coordinates.of(1, 2));
+        when(currentWeatherReportMock.getCountryCode()).thenReturn("US");
+
+        WeatherForecastReport weatherForecastReportMock = mock(WeatherForecastReport.class);
+        when(weatherForecastReportMock.getCityName()).thenReturn("DummyName");
+        when(weatherForecastReportMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDARD);
+        when(weatherForecastReportMock.getCoordinates()).thenReturn(Coordinates.of(1, 2));
+        when(weatherForecastReportMock.getCountryCode()).thenReturn("US");
+
+        List<ForecastOneDayWeather> forecastOneDayWeatherList = new ArrayList<>();
+        forecastOneDayWeatherList.add(new ForecastOneDayWeather(LocalDate.now(), 10, 20));
+        forecastOneDayWeatherList.add(new ForecastOneDayWeather(LocalDate.now(), 33, 66));
+        forecastOneDayWeatherList.add(new ForecastOneDayWeather(LocalDate.now(), 44, 77));
+
+        when(weatherForecastReportMock.getOneDayWeathers()).thenReturn(forecastOneDayWeatherList);
+
+        when(repositoryMock.getCurrentWeatherReport(any(WeatherRequest.class))).thenReturn(currentWeatherReportMock);
+        when(repositoryMock.getWeatherForecastReport(any(WeatherRequest.class))).thenReturn(weatherForecastReportMock);
+    }
+
     @Test
     public void testConsoleReaderInvokedTwoTimesIfNameIsIncorrect() {
         ConsoleReader consoleReaderMock = mock(ConsoleReader.class);
@@ -36,11 +76,9 @@ public class WeatherDataConsoleUITest {
             }
         });
 
-        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, null);
-        try {
-            weatherDataConsoleUI.start();
-        } catch (NullPointerException ignored) {
-        }
+        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, repositoryMock);
+
+        weatherDataConsoleUI.start();
 
         verify(consoleReaderMock, times(3)).readValueFromConsole(anyString());
     }
@@ -66,11 +104,8 @@ public class WeatherDataConsoleUITest {
             }
         });
 
-        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, null);
-        try {
-            weatherDataConsoleUI.start();
-        } catch (NullPointerException ignored) {
-        }
+        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, repositoryMock);
+        weatherDataConsoleUI.start();
 
         verify(consoleReaderMock, times(2)).readValueFromConsole(anyString());
     }
@@ -99,11 +134,8 @@ public class WeatherDataConsoleUITest {
             }
         });
 
-        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, null);
-        try {
-            weatherDataConsoleUI.start();
-        } catch (NullPointerException ignored) {
-        }
+        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, repositoryMock);
+        weatherDataConsoleUI.start();
 
         verify(consoleReaderMock, times(3)).readValueFromConsole(anyString());
     }
@@ -136,20 +168,14 @@ public class WeatherDataConsoleUITest {
             }
         });
 
-        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, null);
-        try {
-            weatherDataConsoleUI.start();
-        } catch (NullPointerException ignored) {
-        }
+        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, repositoryMock);
+        weatherDataConsoleUI.start();
 
         verify(consoleReaderMock, times(4)).readValueFromConsole(anyString());
     }
 
     @Test
     public void testWeatherRepositoryMethodsInvoked() {
-        WeatherRepository weatherRepositoryMock = mock(WeatherRepository.class);
-        when(weatherRepositoryMock.getWeatherForecastReport(any(WeatherRequest.class))).thenReturn(null);
-        when(weatherRepositoryMock.getCurrentWeatherReport(any(WeatherRequest.class))).thenReturn(null);
         ConsoleReader consoleReaderMock = mock(ConsoleReader.class);
         when(consoleReaderMock.readValueFromConsole(anyString())).thenAnswer(new Answer() {
             private int count = 0;
@@ -168,15 +194,12 @@ public class WeatherDataConsoleUITest {
             }
         });
 
-        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, weatherRepositoryMock);
-        try {
-            weatherDataConsoleUI.start();
-        } catch (NullPointerException ignored) {
-        }
+        WeatherDataConsoleUI weatherDataConsoleUI = new WeatherDataConsoleUI(consoleReaderMock, repositoryMock);
+        weatherDataConsoleUI.start();
 
-        InOrder inOrder = inOrder(weatherRepositoryMock);
+        InOrder inOrder = inOrder(repositoryMock);
 
-        inOrder.verify(weatherRepositoryMock, times(1)).getCurrentWeatherReport(any(WeatherRequest.class));
-        inOrder.verify(weatherRepositoryMock, times(1)).getWeatherForecastReport(any(WeatherRequest.class));
+        inOrder.verify(repositoryMock, times(1)).getCurrentWeatherReport(any(WeatherRequest.class));
+        inOrder.verify(repositoryMock, times(1)).getWeatherForecastReport(any(WeatherRequest.class));
     }
 }
