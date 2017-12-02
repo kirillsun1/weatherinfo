@@ -4,7 +4,7 @@ public class Constants {
     public enum TemperatureUnits {
         STANDARD("°K"), METRIC("°C"), IMPERIAL("°F");
 
-        private String symbol;
+        private final String symbol;
 
         TemperatureUnits(String symbol) {
             this.symbol = symbol;

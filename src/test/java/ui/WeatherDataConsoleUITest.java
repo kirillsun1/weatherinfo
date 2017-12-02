@@ -15,11 +15,9 @@ import weatherdata.WeatherForecastReport;
 import weatherrequest.WeatherRequest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class WeatherDataConsoleUITest {

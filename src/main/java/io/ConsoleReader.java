@@ -3,7 +3,7 @@ package io;
 import java.util.Scanner;
 
 public class ConsoleReader {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public ConsoleReader() {
         this.scanner = new Scanner(System.in);

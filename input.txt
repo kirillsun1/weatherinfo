@@ -1,1 +1,1 @@
-abc
+{cities:["Moskva", "Tallinn", "London", "Johvi"], tempunit: "metric"}

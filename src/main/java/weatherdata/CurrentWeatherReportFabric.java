@@ -50,7 +50,7 @@ public class CurrentWeatherReportFabric {
         }
     }
 
-    public static CurrentWeatherReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
+    public CurrentWeatherReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
             throws IncorrectAPIOutputException {
         Gson gson = new GsonBuilder().create();
         final CurrentWeatherData weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherData.class);

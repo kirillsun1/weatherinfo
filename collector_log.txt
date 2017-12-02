@@ -1,8 +1,0 @@
-Nov 22, 2017 3:16:53 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
-WARNING: ERROR [City: 456]: null
-Nov 22, 2017 3:16:53 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
-WARNING: ERROR [City: 777]: null
-Nov 22, 2017 3:16:53 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
-WARNING: ERROR [City: 123]: null
-Nov 22, 2017 3:16:53 PM weatherdata.WeatherDataCollector lambda$getReportFiles$0
-WARNING: ERROR [City: 123]: null

@@ -15,6 +15,13 @@ public class OpenWeatherRepository implements WeatherRepository {
     private static final String WEATHER_API_LINK = "https://api.openweathermap.org/data/2.5/weather?";
     private static final String FORECAST_API_LINK = "https://api.openweathermap.org/data/2.5/forecast?";
     private static final String API_KEY = "846ff6c4ed10c7be2825f677097f8376";
+    private final WeatherForecastReportFabric weatherForecastReportFabric;
+    private final CurrentWeatherReportFabric currentWeatherReportFabric;
+
+    public OpenWeatherRepository() {
+        weatherForecastReportFabric = new WeatherForecastReportFabric();
+        currentWeatherReportFabric = new CurrentWeatherReportFabric();
+    }
 
     private static String getDataLineForString(WeatherRequest request) {
         String tempUnitString = request.getTemperatureUnit() == Constants.TemperatureUnits.getUnitByDefault() ?
@@ -55,15 +62,20 @@ public class OpenWeatherRepository implements WeatherRepository {
         }
     }
 
+    private String getJSON(String connectionLink) {
+        HTTPConnection connection = getHTTPConnectionByLink(connectionLink);
+        String jsonFile = getJSONFileFromConnection(connection);
+        connection.close();
+        return jsonFile;
+    }
+
     @Override
     public WeatherForecastReport getWeatherForecastReport(WeatherRequest request) throws APIDataNotFoundException {
         try {
             String connectionLink = makeWeatherForecastRequestLinkFromWeatherRequest(request);
-            HTTPConnection connection = getHTTPConnectionByLink(connectionLink);
-            String jsonFile = getJSONFileFromConnection(connection);
-            connection.close();
+            String jsonFile = getJSON(connectionLink);
 
-            return WeatherForecastReportFabric.createReportFromJSONAndRequest(jsonFile, request);
+            return weatherForecastReportFabric.createReportFromJSONAndRequest(jsonFile, request);
         } catch (IncorrectAPIOutputException e) {
             throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }
@@ -73,11 +85,9 @@ public class OpenWeatherRepository implements WeatherRepository {
     public CurrentWeatherReport getCurrentWeatherReport(WeatherRequest request) throws APIDataNotFoundException {
         try {
             String connectionLink = makeCurrentWeatherRequestLinkFromWeatherRequest(request);
-            HTTPConnection connection = getHTTPConnectionByLink(connectionLink);
-            String jsonFile = getJSONFileFromConnection(connection);
-            connection.close();
+            String jsonFile = getJSON(connectionLink);
 
-            return CurrentWeatherReportFabric.createReportFromJSONAndRequest(jsonFile, request);
+            return currentWeatherReportFabric.createReportFromJSONAndRequest(jsonFile, request);
         } catch (IncorrectAPIOutputException e) {
             throw new APIDataNotFoundException("Unable to get data from API: " + e.getMessage());
         }

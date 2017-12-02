@@ -10,9 +10,9 @@ import weatherrequest.WeatherRequest;
 import weatherrequest.WeatherRequestFactory;
 
 public class WeatherDataConsoleUI {
-    private ConsoleReader consoleReader;
-    private WeatherRepository weatherRepository;
-    private WeatherRequestFactory weatherRequestFactory;
+    private final ConsoleReader consoleReader;
+    private final WeatherRepository weatherRepository;
+    private final WeatherRequestFactory weatherRequestFactory;
 
     public WeatherDataConsoleUI(ConsoleReader consoleReader, WeatherRepository weatherRepository) {
         this.consoleReader = consoleReader;
@@ -57,10 +57,9 @@ public class WeatherDataConsoleUI {
         System.out.println(String.format("Current temperature: %.02f%s",
                 currentWeatherReport.getCurrentTemperature(), tempSymbol));
         System.out.println("Forecast: ");
-        weatherForecastReport.getOneDayWeathers().forEach(w -> {
-            System.out.println(String.format("%s: Min: %.2f%s Max: %.2f%s", w.getCurrentDateTime().toString(),
-                    w.getMinimumTemperature(), tempSymbol, w.getMaximumTemperature(), tempSymbol));
-        });
+        weatherForecastReport.getOneDayWeathers().forEach(w -> System.out.println(
+                String.format("%s: Min: %.2f%s Max: %.2f%s", w.getCurrentDateTime().toString(),
+                        w.getMinimumTemperature(), tempSymbol, w.getMaximumTemperature(), tempSymbol)));
     }
 
     public void start() {

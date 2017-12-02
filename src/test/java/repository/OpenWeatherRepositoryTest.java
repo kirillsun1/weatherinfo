@@ -75,8 +75,7 @@ public class OpenWeatherRepositoryTest {
         try {
             WeatherRequest request = weatherRequestFactory.makeWeatherRequest("Tallinn", "EE");
 
-            WeatherForecastReport weatherForecastReport =
-                    weatherForecastReport = repository.getWeatherForecastReport(request);
+            WeatherForecastReport weatherForecastReport = repository.getWeatherForecastReport(request);
 
             assertEquals(request.getCityName(), weatherForecastReport.getCityName());
             assertEquals(request.getCountryCode().get(), weatherForecastReport.getCountryCode());
@@ -113,7 +112,7 @@ public class OpenWeatherRepositoryTest {
             WeatherRequest request = weatherRequestFactory.makeWeatherRequest("New York", "US",
                     Constants.TemperatureUnits.IMPERIAL);
 
-            WeatherForecastReport report = report = repository.getWeatherForecastReport(request);
+            WeatherForecastReport report = repository.getWeatherForecastReport(request);
 
             assertEquals("New York", report.getCityName());
             assertEquals("US", report.getCountryCode());
