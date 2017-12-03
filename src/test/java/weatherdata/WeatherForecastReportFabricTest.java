@@ -11,6 +11,7 @@ import weatherrequest.WeatherRequest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class WeatherForecastReportFabricTest {
         return listObject;
     }
 
+    @SuppressWarnings("unchecked")
     private void setDataToTestJSON() {
         testJSON.city = new City();
 
@@ -96,31 +98,21 @@ public class WeatherForecastReportFabricTest {
 
         assertEquals("CityName", weatherForecastReport.getCityName());
         assertEquals("EE", weatherForecastReport.getCountryCode());
+        assertEquals(Constants.TemperatureUnits.STANDARD, weatherForecastReport.getTemperatureUnit());
         assertEquals(113.11, weatherForecastReport.getCoordinates().getLatitude(), 0.01);
         assertEquals(111.11, weatherForecastReport.getCoordinates().getLongitude(), 0.01);
     }
 
     @Test
-    public void testMinAndMaxTempAreCorrectForEachDay() {
+    public void testTemperatureUnitIsTheSameAsInWeatherRequest() {
         WeatherRequest weatherRequestMock = mock(WeatherRequest.class);
-        when(weatherRequestMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.STANDARD);
+        when(weatherRequestMock.getTemperatureUnit()).thenReturn(Constants.TemperatureUnits.IMPERIAL);
 
         WeatherForecastReport weatherForecastReport =
                 weatherForecastReportFabric.createReportFromJSONAndRequest(getJSONStringFromTestJSON(),
                         weatherRequestMock);
 
-        List<ForecastOneDayWeather> oneDayWeathers = weatherForecastReport.getOneDayWeathers();
-
-        assertEquals(3, oneDayWeathers.size());
-
-        assertEquals(1.33, oneDayWeathers.get(0).getMinimumTemperature(), 0.01);
-        assertEquals(50.88, oneDayWeathers.get(0).getMaximumTemperature(), 0.01);
-
-        assertEquals(100.03, oneDayWeathers.get(1).getMinimumTemperature(), 0.01);
-        assertEquals(900.20, oneDayWeathers.get(1).getMaximumTemperature(), 0.01);
-
-        assertEquals(500.03, oneDayWeathers.get(2).getMinimumTemperature(), 0.01);
-        assertEquals(999.20, oneDayWeathers.get(2).getMaximumTemperature(), 0.01);
+        assertEquals(Constants.TemperatureUnits.IMPERIAL, weatherForecastReport.getTemperatureUnit());
     }
 
     @Test(expected = IncorrectAPIOutputException.class)

@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 public class WeatherDataCollector {
     private static final Logger LOGGER = Logger.getLogger(WeatherDataCollector.class.getName());
 
-    private final WeatherRepository weatherRepository;
-
     static {
         try {
             FileHandler fileHandler = new FileHandler("collector_log.txt");
@@ -28,6 +26,8 @@ public class WeatherDataCollector {
         }
     }
 
+    private final WeatherRepository weatherRepository;
+
     public WeatherDataCollector(WeatherRepository weatherRepository) {
         this.weatherRepository = weatherRepository;
     }
@@ -36,13 +36,14 @@ public class WeatherDataCollector {
         return requests.stream()
                 .map(request -> {
                     try {
-                        CurrentWeatherReport currentWeatherReport = weatherRepository.getCurrentWeatherReport(request);
-                        WeatherForecastReport weatherForecastReport = weatherRepository.getWeatherForecastReport(request);
+                        CurrentWeatherReport currentWeatherReport =
+                                weatherRepository.getCurrentWeatherReport(request);
+                        WeatherForecastReport weatherForecastReport =
+                                weatherRepository.getWeatherForecastReport(request);
 
                         return new ReportFile(request.getCityName(), currentWeatherReport, weatherForecastReport);
                     } catch (APIDataNotFoundException ex) {
-                        LOGGER.warning(String.format("ERROR [City: %s]: %s",
-                                request.getCityName(), ex.getMessage()));
+                        LOGGER.warning(String.format("Cannot create reports for city %s", request.getCityName()));
                         return null; // will be soon filtered out from the list
                     }
                 })

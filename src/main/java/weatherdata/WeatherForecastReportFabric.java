@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WeatherForecastReportFabric {
+    @SuppressWarnings("unchecked")
     private static ArrayList<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursData structureObject) {
         ArrayList<ForecastOneDayWeather> oneDayWeatherList = new ArrayList<>();
         LocalDate currentDay = null;
