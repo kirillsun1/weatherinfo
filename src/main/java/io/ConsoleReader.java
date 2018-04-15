@@ -10,7 +10,7 @@ public class ConsoleReader {
     }
 
     public String readValueFromConsole(String message) {
-        System.out.print(message + " ");
+        System.out.printf("%s ", message);
         return scanner.nextLine();
     }
 }

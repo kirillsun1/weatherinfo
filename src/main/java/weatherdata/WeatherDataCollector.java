@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class WeatherDataCollector {
     private static final Logger LOGGER = Logger.getLogger(WeatherDataCollector.class.getName());
 
+    private final WeatherRepository weatherRepository;
+
     static {
         try {
             FileHandler fileHandler = new FileHandler("collector_log.txt");
@@ -25,8 +27,6 @@ public class WeatherDataCollector {
             e.printStackTrace();
         }
     }
-
-    private final WeatherRepository weatherRepository;
 
     public WeatherDataCollector(WeatherRepository weatherRepository) {
         this.weatherRepository = weatherRepository;

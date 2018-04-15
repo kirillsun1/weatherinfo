@@ -1,8 +1,8 @@
 package tasks;
 
-import io.ReportFile;
 import io.InputFileReader;
 import io.OutputFileWriter;
+import io.ReportFile;
 import weatherdata.WeatherDataCollector;
 import weatherrequest.WeatherRequest;
 import weatherrequest.WeatherRequestFactory;

@@ -20,6 +20,28 @@ public class WeatherDataConsoleUI {
         weatherRequestFactory = new WeatherRequestFactory();
     }
 
+    public void start() {
+        try {
+            System.out.println("Welcome to WeatherInfo app!");
+            System.out.println("Here you can get weather data of any city in the world.");
+
+            String cityName = askCityName();
+            Constants.TemperatureUnits temperatureUnit = Constants.TemperatureUnits.getUnitByDefault();
+            if (askIfToChangeTempUnit()) {
+                temperatureUnit = askTemperatureUnit();
+            }
+
+            WeatherRequest request = weatherRequestFactory.makeWeatherRequest(cityName, temperatureUnit);
+            System.out.println("Getting reports...");
+            CurrentWeatherReport currentWeatherReport = weatherRepository.getCurrentWeatherReport(request);
+            WeatherForecastReport weatherForecastReport = weatherRepository.getWeatherForecastReport(request);
+
+            printReportsData(currentWeatherReport, weatherForecastReport);
+        } catch (APIDataNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     private String askCityName() {
         String cityName;
         while ((cityName = consoleReader.readValueFromConsole("Enter city name:"))
@@ -60,27 +82,5 @@ public class WeatherDataConsoleUI {
         weatherForecastReport.getOneDayWeathers().forEach(w -> System.out.println(
                 String.format("%s: Min: %.2f%s Max: %.2f%s", w.getCurrentDateTime().toString(),
                         w.getMinimumTemperature(), tempSymbol, w.getMaximumTemperature(), tempSymbol)));
-    }
-
-    public void start() {
-        try {
-            System.out.println("Welcome to WeatherInfo app!");
-            System.out.println("Here you can get weather data of any city in the world.");
-
-            String cityName = askCityName();
-            Constants.TemperatureUnits temperatureUnit = Constants.TemperatureUnits.getUnitByDefault();
-            if (askIfToChangeTempUnit()) {
-                temperatureUnit = askTemperatureUnit();
-            }
-
-            WeatherRequest request = weatherRequestFactory.makeWeatherRequest(cityName, temperatureUnit);
-            System.out.println("Getting reports...");
-            CurrentWeatherReport currentWeatherReport = weatherRepository.getCurrentWeatherReport(request);
-            WeatherForecastReport weatherForecastReport = weatherRepository.getWeatherForecastReport(request);
-
-            printReportsData(currentWeatherReport, weatherForecastReport);
-        } catch (APIDataNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 }

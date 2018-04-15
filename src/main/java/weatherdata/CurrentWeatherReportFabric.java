@@ -1,22 +1,36 @@
 package weatherdata;
 
-import openweatherobjects.CurrentWeatherData;
 import city.City;
 import city.Coordinates;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.IncorrectAPIOutputException;
+import openweatherobjects.CurrentWeatherData;
 import utility.Utils;
 import weatherrequest.WeatherRequest;
 
 public class CurrentWeatherReportFabric {
+    public CurrentWeatherReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
+            throws IncorrectAPIOutputException {
+        Gson gson = new GsonBuilder().create();
+        final CurrentWeatherData weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherData.class);
+
+        String cityName = getCityNameFromAPIStructureObject(weatherFromAPI);
+        String countryCode = getCountryCodeFromAPIStructureObject(weatherFromAPI);
+        double[] coordinates = getCoordinatesFromAPIStructureObject(weatherFromAPI);
+        double currentTemperature = getCurrentTemperatureFromAPIStructureObject(weatherFromAPI);
+
+        return new CurrentWeatherReport(new City(cityName, Coordinates.of(coordinates[0], coordinates[1]), countryCode),
+                currentTemperature, request.getTemperatureUnit());
+    }
+
     private static String getCityNameFromAPIStructureObject(CurrentWeatherData structureObject)
             throws IncorrectAPIOutputException {
-        String cityname = structureObject.cityName;
-        if (cityname == null) {
+        String cityName = structureObject.cityName;
+        if (cityName == null) {
             throw new IncorrectAPIOutputException("Incorrect city name!");
         }
-        return cityname;
+        return cityName;
     }
 
     private static String getCountryCodeFromAPIStructureObject(CurrentWeatherData structureObject)
@@ -48,19 +62,5 @@ public class CurrentWeatherReportFabric {
         } catch (NullPointerException ex) {
             throw new IncorrectAPIOutputException("Incorrect coordinates!");
         }
-    }
-
-    public CurrentWeatherReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
-            throws IncorrectAPIOutputException {
-        Gson gson = new GsonBuilder().create();
-        final CurrentWeatherData weatherFromAPI = gson.fromJson(jsonFile, CurrentWeatherData.class);
-
-        String cityName = getCityNameFromAPIStructureObject(weatherFromAPI);
-        String countryCode = getCountryCodeFromAPIStructureObject(weatherFromAPI);
-        double[] coordinates = getCoordinatesFromAPIStructureObject(weatherFromAPI);
-        double currentTemperature = getCurrentTemperatureFromAPIStructureObject(weatherFromAPI);
-
-        return new CurrentWeatherReport(new City(cityName, Coordinates.of(coordinates[0], coordinates[1]), countryCode),
-                currentTemperature, request.getTemperatureUnit());
     }
 }

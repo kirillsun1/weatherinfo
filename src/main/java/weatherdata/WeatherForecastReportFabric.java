@@ -17,9 +17,32 @@ import java.util.HashMap;
 import java.util.List;
 
 public class WeatherForecastReportFabric {
+    public WeatherForecastReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
+            throws IncorrectAPIOutputException {
+        Gson gson = new GsonBuilder().create();
+        Forecast5Days3HoursData apiForecast = gson.fromJson(jsonFile, Forecast5Days3HoursData.class);
+
+        if (apiForecast.city == null) {
+            throw new IncorrectAPIOutputException("City is not specified!");
+        }
+
+        if (apiForecast.list == null) {
+            throw new IncorrectAPIOutputException("List with data is missed!");
+        }
+
+        String cityName = getCityNameFromAPIStructureObject(apiForecast);
+        double[] coordinates = getCoordinatesFromAPIStructureObject(apiForecast);
+        String countryCode = getCountryCodeFromAPIStructureObject(apiForecast);
+
+        List<ForecastOneDayWeather> oneDayWeatherList = getOneDayWeathersList(apiForecast);
+
+        return new WeatherForecastReport(new City(cityName, Coordinates.of(coordinates[0], coordinates[1]), countryCode),
+                oneDayWeatherList, request.getTemperatureUnit());
+    }
+
     @SuppressWarnings("unchecked")
-    private static ArrayList<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursData structureObject) {
-        ArrayList<ForecastOneDayWeather> oneDayWeatherList = new ArrayList<>();
+    private static List<ForecastOneDayWeather> getOneDayWeathersList(Forecast5Days3HoursData structureObject) {
+        List<ForecastOneDayWeather> oneDayWeatherList = new ArrayList<>();
         LocalDate currentDay = null;
         LocalDate todayDate = LocalDate.now();
         ForecastOneDayWeather currentDayWeather = null;
@@ -90,28 +113,5 @@ public class WeatherForecastReportFabric {
         }
 
         return countryCode;
-    }
-
-    public WeatherForecastReport createReportFromJSONAndRequest(String jsonFile, WeatherRequest request)
-            throws IncorrectAPIOutputException {
-        Gson gson = new GsonBuilder().create();
-        Forecast5Days3HoursData apiForecast = gson.fromJson(jsonFile, Forecast5Days3HoursData.class);
-
-        if (apiForecast.city == null) {
-            throw new IncorrectAPIOutputException("City is not specified!");
-        }
-
-        if (apiForecast.list == null) {
-            throw new IncorrectAPIOutputException("List with data is missed!");
-        }
-
-        String cityName = getCityNameFromAPIStructureObject(apiForecast);
-        double[] coordinates = getCoordinatesFromAPIStructureObject(apiForecast);
-        String countryCode = getCountryCodeFromAPIStructureObject(apiForecast);
-
-        List<ForecastOneDayWeather> oneDayWeatherList = getOneDayWeathersList(apiForecast);
-
-        return new WeatherForecastReport(new City(cityName, Coordinates.of(coordinates[0], coordinates[1]), countryCode),
-                oneDayWeatherList, request.getTemperatureUnit());
     }
 }

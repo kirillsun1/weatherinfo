@@ -18,7 +18,7 @@ public class WeatherRequest {
     }
 
     public Optional<String> getCountryCode() {
-        return cityCode != null ? Optional.of(cityCode) : Optional.empty();
+        return Optional.ofNullable(cityCode);
     }
 
     public Constants.TemperatureUnits getTemperatureUnit() {

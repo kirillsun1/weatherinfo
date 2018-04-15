@@ -10,6 +10,13 @@ import java.net.URL;
 public class HTTPConnection implements Closeable {
     private HttpURLConnection connection;
 
+    public static HTTPConnection createConnectionFromURL(String url) throws IOException {
+        HTTPConnection newConnection = new HTTPConnection();
+        newConnection.connection = (HttpURLConnection) new URL(url).openConnection();
+        newConnection.connection.connect();
+        return newConnection;
+    }
+
     public String downloadFile() throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -27,14 +34,8 @@ public class HTTPConnection implements Closeable {
         return connection.getResponseCode();
     }
 
+    @Override
     public void close() {
         connection.disconnect();
-    }
-
-    public static HTTPConnection createConnectionFromURL(String url) throws IOException {
-        HTTPConnection newConnection = new HTTPConnection();
-        newConnection.connection = (HttpURLConnection) new URL(url).openConnection();
-        newConnection.connection.connect();
-        return newConnection;
     }
 }
